@@ -69,7 +69,7 @@ const INITIAL_RESUME_DATA = {
       role: "Senior Executive Application Support",
       company: "Arkafincap",
       period: "Sep 2024 - Oct 2025",
-      description: "Automated MongoDB Excel reporting via Python & .NET Core, improving reporting cadence by 50%. Enhanced Razorpay payment flows and reduced incident resolution time by 20% through expert log analysis."
+      description: "Automated MongoDB Excel reporting via Python & MongoDB, improving reporting cadence by 50%. Enhanced Razorpay payment flows using razorpay integration with Google's Appscript and reduced incident resolution time by 20% through expert log analysis."
     },
     {
       id: 2,
@@ -563,7 +563,8 @@ export default function PortfolioPage() {
                 
                 {/* Footer */}
                 <footer className={`border-t ${theme.sidebarBorder} pt-8 text-center ${theme.textMuted} text-sm transition-colors duration-300`}>
-                <p>Built with React & Tailwind CSS</p>
+                <pre>Passion Project by Mohit Bellwani 
+                  Built with React & Tailwind CSS</pre>
                 </footer>
             </>
         )}
