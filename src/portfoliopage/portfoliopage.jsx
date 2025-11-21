@@ -29,7 +29,7 @@ const INITIAL_RESUME_DATA = {
   profile: {
     name: "Mohit Bellwani",
     title: "Software Engineer & Application Support",
-    tagline: "Automating workflows with Python, SQL, and Modern Web Tech.",
+    tagline: "Automating workflows with Python, MongoDB, and Modern Web Tech.",
     bio: "I am an experienced engineer specializing in Application Support and Development. From automating MongoDB reporting at Arkafincap to migrating legacy Silverlight apps to Blazor at QloudX, I focus on reducing manual effort and improving system efficiency.",
     email: "bellwanimohit@gmail.com",
     linkedin: "https://www.linkedin.com/in/mohit-bellwani/",
