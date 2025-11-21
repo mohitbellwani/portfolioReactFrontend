@@ -563,8 +563,8 @@ export default function PortfolioPage() {
                 
                 {/* Footer */}
                 <footer className={`border-t ${theme.sidebarBorder} pt-8 text-center ${theme.textMuted} text-sm transition-colors duration-300`}>
-                <pre>Passion Project by Mohit Bellwani 
-                  Built with React & Tailwind CSS</pre>
+                <p>Passion Project by Mohit Bellwani </p>
+                  <p>Built with React & Tailwind CSS</p>
                 </footer>
             </>
         )}
