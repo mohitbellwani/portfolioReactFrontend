@@ -68,7 +68,7 @@ const INITIAL_RESUME_DATA = {
       id: 1,
       role: "Senior Executive Application Support",
       company: "Arkafincap",
-      period: "Sep 2024 - Present",
+      period: "Sep 2024 - Oct 2025",
       description: "Automated MongoDB Excel reporting via Python & .NET Core, improving reporting cadence by 50%. Enhanced Razorpay payment flows and reduced incident resolution time by 20% through expert log analysis."
     },
     {
