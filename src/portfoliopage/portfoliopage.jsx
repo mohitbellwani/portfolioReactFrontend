@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Github, 
   Linkedin, 
@@ -369,6 +369,18 @@ export default function PortfolioPage() {
 
   const toggleTheme = () => setIsDark(!isDark);
 
+  // IMPORTANT: This Effect synchronizes the BODY background with the theme
+  // This fixes the "White borders" issue on mobile overscroll
+  useEffect(() => {
+    if (isDark) {
+      document.body.style.backgroundColor = '#020617'; // slate-950
+      document.body.style.color = '#e2e8f0'; // slate-200
+    } else {
+      document.body.style.backgroundColor = '#fdfbf7'; // beige paper
+      document.body.style.color = '#292524'; // stone-800
+    }
+  }, [isDark]);
+
   const theme = getThemeClasses(isDark);
 
   const scrollToSection = (id) => {
@@ -389,7 +401,7 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className={`min-h-screen ${theme.bg} ${theme.text} font-sans flex flex-col lg:flex-row transition-colors duration-300`}>
+    <div className={`min-h-screen w-full ${theme.bg} ${theme.text} font-sans flex flex-col lg:flex-row transition-colors duration-300 overflow-x-hidden`}>
       
       {/* Mobile Header */}
       <div className={`lg:hidden fixed top-0 left-0 right-0 h-16 ${isDark ? 'bg-slate-950/90 border-slate-800' : 'bg-[#fdfbf7]/90 border-stone-200'} backdrop-blur-md border-b z-50 flex items-center justify-between px-4 shadow-sm transition-colors duration-300`}>
