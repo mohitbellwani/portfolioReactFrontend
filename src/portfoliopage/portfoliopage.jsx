@@ -21,7 +21,8 @@ import {
   ArrowLeft, 
   Image as ImageIcon,
   Sun,
-  Moon
+  Moon,
+  AlertCircle
 } from 'lucide-react';
 
 // --- DATA SOURCE ---
@@ -68,7 +69,7 @@ const INITIAL_RESUME_DATA = {
       id: 1,
       role: "Senior Executive Application Support",
       company: "Arkafincap",
-      period: "Sep 2024 - Oct 2025",
+      period: "Sep 2024 - Present",
       description: "Automated MongoDB Excel reporting via Python & MongoDB, improving reporting cadence by 50%. Enhanced Razorpay payment flows using razorpay integration with Google's Appscript and reduced incident resolution time by 20% through expert log analysis."
     },
     {
@@ -101,10 +102,22 @@ const INITIAL_RESUME_DATA = {
       description: "An Android app that sends user location on-demand when a specific keyword is received via SMS from an authorized contact.",
       tags: ["Android Studio", "Java", "XML", "Google Maps API"],
       link: "#",
-      github: "https://github.com/yourusername/sms-gps",
+      github: "https://github.com/mohitbellwani/SMS-GPS-location",
       screenshots: [
-        "https://placehold.co/600x400/e2e8f0/475569?text=App+Interface+1", 
-        "https://placehold.co/600x400/e2e8f0/475569?text=Map+View"
+        // "src\\assets\\SMSGPS\\screen1.jpg",
+        "src\\assets\\SMSGPS\\screen2.jpg",
+        "src\\assets\\SMSGPS\\screen3.jpg",
+        "src\\assets\\SMSGPS\\screen4.jpg",
+        "src\\assets\\SMSGPS\\screen5.jpg",
+        "src\\assets\\SMSGPS\\screen6.jpg",
+        "src\\assets\\SMSGPS\\screen7.jpg",
+        "src\\assets\\SMSGPS\\screen8.jpg",
+        "src\\assets\\SMSGPS\\screen9.jpg",
+        "src\\assets\\SMSGPS\\screen10.jpg",
+        "src\\assets\\SMSGPS\\screen11.jpg",
+        "src\\assets\\SMSGPS\\screen12.jpg",
+        // "src\\assets\\SMSGPS\\screen13.jpg",
+        "src\\assets\\SMSGPS\\screen14.jpg"
       ],
       longDescription: "This project was born out of a need for simple, text-based location tracking. It leverages Android's SMS BroadcastReceiver to listen for specific secure keywords. When triggered, it queries the device GPS and silently replies with coordinates. It features a robust permission handling system and Google Maps integration."
     },
@@ -115,10 +128,14 @@ const INITIAL_RESUME_DATA = {
       description: "Developed a video game to make education engaging for young students. Integrated fun gameplay with learning elements.",
       tags: ["Python", "Ren'Py", "Unity Engine", "Mixamo"],
       link: "#",
-      github: "https://github.com/yourusername/lost-world-game",
+      github: "https://github.com/mohitbellwani/Adventures-of-the-lost-world",
       screenshots: [
-        "https://placehold.co/600x400/e2e8f0/475569?text=Game+Menu",
-        "https://placehold.co/600x400/e2e8f0/475569?text=Gameplay+Level+1"
+        "src\\assets\\AOTLW\\1.jpeg", 
+        "src\\assets\\AOTLW\\2.jpeg",
+        "src\\assets\\AOTLW\\3.jpeg",
+        "src\\assets\\AOTLW\\4.jpeg",
+        "src\\assets\\AOTLW\\5.jpeg",
+        "src\\assets\\AOTLW\\6.jpeg",
       ],
       longDescription: "A 2D/3D hybrid educational game designed to teach basic history and science concepts. I used Ren'Py for the dialogue systems and Unity for the platforming sections. Character models were rigged using Mixamo."
     }
@@ -151,8 +168,28 @@ const INITIAL_RESUME_DATA = {
   ]
 };
 
+// --- UTILITY: GOOGLE DRIVE IMAGE FIXER ---
+// This function automatically converts a "Share" link into a "Direct Embed" link
+const resolveImageLink = (url) => {
+  if (!url) return "";
+  
+  // Check if it's a Google Drive link
+  if (url.includes('drive.google.com') || url.includes('docs.google.com')) {
+    // Extract the File ID
+    // Matches /d/FILE_ID/ or id=FILE_ID
+    const idMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+    
+    if (idMatch && idMatch[1]) {
+      // Return the "Thumbnail/Direct Export" format
+      // "export=view" is standard, but "thumbnail" often bypasses quota limits better
+      return `https://drive.google.com/uc?export=view&id=${idMatch[1]}`;
+    }
+  }
+  
+  return url;
+};
+
 // --- UI HELPER CLASSES ---
-// We use function helpers or props to toggle styles for guaranteed compatibility
 const getThemeClasses = (isDark) => ({
   bg: isDark ? 'bg-slate-950' : 'bg-[#fdfbf7]',
   text: isDark ? 'text-slate-200' : 'text-stone-800',
@@ -312,9 +349,9 @@ const ProjectDetailView = ({ project, onBack, isDark }) => {
                                     <Github size={18} /> GitHub Repo
                                 </a>
                             )}
-                            <a href={project.link} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-4 py-2 border ${theme.cardBorder} ${theme.text} rounded-lg ${isDark ? 'hover:bg-slate-800' : 'hover:bg-stone-50'} transition-colors`}>
+                            {/* <a href={project.link} target="_blank" rel="noreferrer" className={`flex items-center gap-2 px-4 py-2 border ${theme.cardBorder} ${theme.text} rounded-lg ${isDark ? 'hover:bg-slate-800' : 'hover:bg-stone-50'} transition-colors`}>
                                 <ExternalLink size={18} /> Live Demo
-                            </a>
+                            </a> */}
                         </div>
                     </div>
 
@@ -340,12 +377,21 @@ const ProjectDetailView = ({ project, onBack, isDark }) => {
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {project.screenshots.map((shot, idx) => (
-                                    <img 
-                                        key={idx} 
-                                        src={shot} 
-                                        alt={`Screenshot ${idx + 1}`} 
-                                        className={`rounded-lg border ${theme.cardBorder} shadow-sm hover:shadow-md transition-shadow w-full h-auto object-cover`}
-                                    />
+                                    <div key={idx} className="relative group">
+                                      <img 
+                                          src={resolveImageLink(shot)} 
+                                          alt={`Screenshot ${idx + 1}`} 
+                                          referrerPolicy="no-referrer"
+                                          className={`rounded-lg border ${theme.cardBorder} shadow-sm hover:shadow-md transition-shadow w-full h-auto object-cover`}
+                                          onError={(e) => {
+                                            // Fallback if image fails to load
+                                            e.currentTarget.onerror = null;
+                                            e.currentTarget.style.display = 'none';
+                                            e.currentTarget.parentElement.classList.add('bg-gray-200', 'flex', 'items-center', 'justify-center', 'h-40', 'rounded-lg');
+                                            e.currentTarget.parentElement.innerHTML = '<span class="text-xs text-gray-500">Image not available</span>';
+                                          }}
+                                      />
+                                    </div>
                                 ))}
                             </div>
                         </div>
@@ -461,7 +507,7 @@ export default function PortfolioPage() {
             <a href={data.profile.linkedin} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Linkedin size={20} /></a>
             <a href={`mailto:${data.profile.email}`} className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Mail size={20} /></a>
           </div>
-          <p className={`text-center ${theme.textMuted} text-[10px] mt-4`}>2025 Mohit Bellwani</p>
+          <p className={`text-center ${theme.textMuted} text-[10px] mt-4`}>© 2025 Mohit Bellwani</p>
         </div>
       </aside>
 
@@ -575,8 +621,7 @@ export default function PortfolioPage() {
                 
                 {/* Footer */}
                 <footer className={`border-t ${theme.sidebarBorder} pt-8 text-center ${theme.textMuted} text-sm transition-colors duration-300`}>
-                <p>Passion Project by Mohit Bellwani </p>
-                  <p>Built with React & Tailwind CSS</p>
+                <p>Built with React & Tailwind CSS</p>
                 </footer>
             </>
         )}
