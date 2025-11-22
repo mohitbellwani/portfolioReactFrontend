@@ -461,7 +461,7 @@ export default function PortfolioPage() {
             <a href={data.profile.linkedin} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Linkedin size={20} /></a>
             <a href={`mailto:${data.profile.email}`} className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Mail size={20} /></a>
           </div>
-          <p className={`text-center ${theme.textMuted} text-[10px] mt-4`}>© 2025 Mohit Bellwani</p>
+          <p className={`text-center ${theme.textMuted} text-[10px] mt-4`}>2025 Mohit Bellwani</p>
         </div>
       </aside>
 
