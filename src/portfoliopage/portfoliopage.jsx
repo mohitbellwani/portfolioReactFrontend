@@ -168,27 +168,6 @@ const INITIAL_RESUME_DATA = {
   ]
 };
 
-// --- UTILITY: GOOGLE DRIVE IMAGE FIXER ---
-// This function automatically converts a "Share" link into a "Direct Embed" link
-const resolveImageLink = (url) => {
-  if (!url) return "";
-  
-  // Check if it's a Google Drive link
-  if (url.includes('drive.google.com') || url.includes('docs.google.com')) {
-    // Extract the File ID
-    // Matches /d/FILE_ID/ or id=FILE_ID
-    const idMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
-    
-    if (idMatch && idMatch[1]) {
-      // Return the "Thumbnail/Direct Export" format
-      // "export=view" is standard, but "thumbnail" often bypasses quota limits better
-      return `https://drive.google.com/uc?export=view&id=${idMatch[1]}`;
-    }
-  }
-  
-  return url;
-};
-
 // --- UI HELPER CLASSES ---
 const getThemeClasses = (isDark) => ({
   bg: isDark ? 'bg-slate-950' : 'bg-[#fdfbf7]',
@@ -379,7 +358,7 @@ const ProjectDetailView = ({ project, onBack, isDark }) => {
                                 {project.screenshots.map((shot, idx) => (
                                     <div key={idx} className="relative group">
                                       <img 
-                                          src={resolveImageLink(shot)} 
+                                          src={shot} 
                                           alt={`Screenshot ${idx + 1}`} 
                                           referrerPolicy="no-referrer"
                                           className={`rounded-lg border ${theme.cardBorder} shadow-sm hover:shadow-md transition-shadow w-full h-auto object-cover`}
