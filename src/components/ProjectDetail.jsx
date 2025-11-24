@@ -32,15 +32,9 @@ const ProjectDetailView = ({ project, onBack, isDark }) => {
                         </div>
                     </div>
 
-                    {/* Image Carousel */}
-                    {project.screenshots && project.screenshots.length > 0 && (
-                       <ImageCarousel images={project.screenshots} isDark={isDark} />
-                    )}
-
                     <p className={`${theme.textMuted} leading-relaxed mb-8 text-lg`}>
                         {project.longDescription || project.description}
                     </p>
-
                     <div className="mb-8">
                         <h3 className={`text-lg font-bold ${theme.textHeader} mb-3`}>Technologies Used</h3>
                         <div className="flex flex-wrap gap-2">
@@ -51,6 +45,17 @@ const ProjectDetailView = ({ project, onBack, isDark }) => {
                             ))}
                         </div>
                     </div>
+
+                    <div className="mb-8">
+                        <h3 className={`text-lg font-bold ${theme.textHeader} mb-3`}>Screenshots</h3>
+                        <div className="flex flex-wrap gap-2">
+                            {/* Image Carousel */}
+                            {project.screenshots && project.screenshots.length > 0 && (
+                                <ImageCarousel images={project.screenshots} isDark={isDark} />
+                            )}
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
