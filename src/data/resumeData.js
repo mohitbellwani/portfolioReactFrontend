@@ -136,13 +136,13 @@ export const INITIAL_RESUME_DATA = {
   ],
   education: [
     {
-      degree: "Masters of Computer Application (MCA)",
+      degree: "Masters of Computer Application (M.C.A.)",
       school: "Bharatiya Vidya Bhavan's Sardar Patel Institute of Tech",
       year: "Dec 2022",
       detail: "Certificate of Merit Holder (3rd Rank)"
     },
     {
-      degree: "B.Sc. Computer Science",
+      degree: "Bacthlor of Science(B.Sc.) - Computer Science ",
       school: "Vivekanand Education Society's College of Arts, Science and Commerce",
       year: "Oct 2020",
       detail: "First Class"
