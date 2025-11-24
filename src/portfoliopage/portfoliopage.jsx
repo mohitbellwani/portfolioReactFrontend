@@ -107,21 +107,21 @@ const INITIAL_RESUME_DATA = {
     }
   ],
   projects: [
+    // {
+    //   id: 1,
+    //   title: "Portfolio Website",
+    //   type: "Web App",
+    //   description: "A personal portfolio website showcasing skills, experience, and projects.",
+    //   tags: ["React","JavaScript","Tailwind CSS", "Vercel"],
+    //   link: "#",
+    //   github: "https://github.com/mohitbellwani/portfolioReactFrontend",
+    //   screenshots: [
+        
+    //   ],
+    //   longDescription: "This is my personal portfolio website built using React and Tailwind CSS. It showcases my skills, experience, and projects in a clean and modern design. The site is fully responsive and optimized for performance, providing an excellent user experience across all devices."
+    // },
     {
       id: 1,
-      title: "Portfolio Website",
-      type: "Web App",
-      description: "A personal portfolio website showcasing skills, experience, and projects.",
-      tags: ["React","JavaScript","Tailwind CSS", "Vercel"],
-      link: "#",
-      github: "https://github.com/mohitbellwani/portfolioReactFrontend",
-      screenshots: [
-        
-      ],
-      longDescription: "This is my personal portfolio website built using React and Tailwind CSS. It showcases my skills, experience, and projects in a clean and modern design. The site is fully responsive and optimized for performance, providing an excellent user experience across all devices."
-    },
-    {
-      id: 2,
       title: "SMS GPS Location",
       type: "Android App",
       description: "An Android app that sends user location on-demand when a specific keyword is received via SMS from an authorized contact.",
@@ -147,7 +147,7 @@ const INITIAL_RESUME_DATA = {
       longDescription: "This project was born out of a need for simple, text-based location tracking. It leverages Android's SMS BroadcastReceiver to listen for specific secure keywords. When triggered, it queries the device GPS and silently replies with coordinates. It features a robust permission handling system and Google Maps integration."
     },
     {
-      id: 3,
+      id: 2,
       title: "Adventures Of The Lost World",
       type: "Educational Game",
       description: "Developed a video game to make education engaging for young students. Integrated fun gameplay with learning elements.",
@@ -226,7 +226,7 @@ const SectionHeader = ({ title, icon: Icon, isDark }) => {
 };
 
 const SkillCard = ({ category, items, icon, isDark }) => {
-  const theme = getThemeClasses(isDark);
+  const theme = getThemeClasses(isDark);projects
   return (
     <div className={`${theme.cardBg} p-5 rounded-xl border ${theme.cardBorder} ${theme.cardHoverBorder} transition-all duration-300 hover:shadow-md group`}>
       <div className="flex items-center gap-3 mb-4">
