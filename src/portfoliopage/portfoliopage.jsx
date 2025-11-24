@@ -22,8 +22,11 @@ import {
   Image as ImageIcon,
   Sun,
   Moon,
-  AlertCircle
+  AlertCircle,
+  FileIcon,
+  FileDownIcon
 } from 'lucide-react';
+import { resume } from 'react-dom/server';
 
 // --- DATA SOURCE ---
 const INITIAL_RESUME_DATA = {
@@ -34,7 +37,8 @@ const INITIAL_RESUME_DATA = {
     bio: "I am an experienced engineer specializing in Application Support and Development. From automating MongoDB reporting at Arkafincap to migrating legacy Silverlight apps to Blazor at QloudX, I focus on reducing manual effort and improving system efficiency.",
     email: "bellwanimohit@gmail.com",
     linkedin: "https://www.linkedin.com/in/mohit-bellwani/",
-    Github: "https://github.com/mohitbellwani",
+    github: "https://github.com/mohitbellwani",
+    resume: "/assets/Mohit_Bellwani_Resume_V9.pdf",
     phone: "+91 9552201705",
     location: "Mumbai, India"
   },
@@ -507,6 +511,7 @@ export default function PortfolioPage() {
             <a href={data.profile.linkedin} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Linkedin size={20} /></a>
             <a href={`mailto:${data.profile.email}`} className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Mail size={20} /></a>
             <a href={data.profile.github} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Github size={20} /></a>
+            <a href={data.profile.resume} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><FileDownIcon size={20} /></a>
           </div>
           <p className={`text-center ${theme.textMuted} text-[10px] mt-4`}>2025 Mohit Bellwani</p>
         </div>
