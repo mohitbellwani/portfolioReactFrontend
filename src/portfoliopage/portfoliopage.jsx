@@ -7,7 +7,7 @@ import {
 
 import { INITIAL_RESUME_DATA } from '../data/resumeData';
 import { getThemeClasses } from '../utils/theme';
-import ProjectDetailView from '../Components/ProjectDetail';
+import ProjectDetailView from '../components/ProjectDetail';
 import { 
   SectionHeader, SkillCard, TimelineItem, 
   ProjectCard, NavItem, Footer 
