@@ -24,7 +24,7 @@ import {
   Moon,
   AlertCircle,
   FileIcon,
-  FileDownIcon
+  DownloadIcon
 } from 'lucide-react';
 import { resume } from 'react-dom/server';
 
@@ -107,19 +107,6 @@ const INITIAL_RESUME_DATA = {
     }
   ],
   projects: [
-    // {
-    //   id: 1,
-    //   title: "Portfolio Website",
-    //   type: "Web App",
-    //   description: "A personal portfolio website showcasing skills, experience, and projects.",
-    //   tags: ["React","JavaScript","Tailwind CSS", "Vercel"],
-    //   link: "#",
-    //   github: "https://github.com/mohitbellwani/portfolioReactFrontend",
-    //   screenshots: [
-        
-    //   ],
-    //   longDescription: "This is my personal portfolio website built using React and Tailwind CSS. It showcases my skills, experience, and projects in a clean and modern design. The site is fully responsive and optimized for performance, providing an excellent user experience across all devices."
-    // },
     {
       id: 1,
       title: "SMS GPS Location",
@@ -226,7 +213,7 @@ const SectionHeader = ({ title, icon: Icon, isDark }) => {
 };
 
 const SkillCard = ({ category, items, icon, isDark }) => {
-  const theme = getThemeClasses(isDark);projects
+  const theme = getThemeClasses(isDark);
   return (
     <div className={`${theme.cardBg} p-5 rounded-xl border ${theme.cardBorder} ${theme.cardHoverBorder} transition-all duration-300 hover:shadow-md group`}>
       <div className="flex items-center gap-3 mb-4">
@@ -511,9 +498,9 @@ export default function PortfolioPage() {
             <a href={data.profile.linkedin} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Linkedin size={20} /></a>
             <a href={`mailto:${data.profile.email}`} className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Mail size={20} /></a>
             <a href={data.profile.github} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Github size={20} /></a>
-            <a href={data.profile.resume} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><FileDownIcon size={20} /></a>
+            <a href={data.profile.resume} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><DownloadIcon size={20} /></a>
           </div>
-          <p className={`text-center ${theme.textMuted} text-[10px] mt-4`}>2025 Mohit Bellwani</p>
+          {/* <p className={`text-center ${theme.textMuted} text-[10px] mt-4`}>2025 Mohit Bellwani</p> */}
         </div>
       </aside>
 
