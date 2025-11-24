@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import PortfolioPage from './portfoliopage/portfoliopage'; 
+import { Analytics } from "@vercel/analytics/next"
 
 function App() {
   useEffect(() => {
@@ -12,6 +13,7 @@ function App() {
     <div className="App">
       {/* Render the Portfolio Page here */}
       <PortfolioPage />
+      <Analytics/>
     </div>
   )
 }
