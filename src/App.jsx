@@ -10,9 +10,6 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <header className="py-4 text-center">
-        <h1 className="text-2xl font-bold">Mohit Bellwani</h1>
-      </header>
       {/* Render the Portfolio Page here */}
       <PortfolioPage />
     </div>
