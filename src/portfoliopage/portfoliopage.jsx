@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   Linkedin, Mail, Github, DownloadIcon, User, Briefcase, 
   Cpu, Code2, GraduationCap, Award, MapPin, 
-  Sun, Moon, Menu, X, Terminal
+  Sun, Moon, Menu, X, Terminal,
+  FileDownIcon
 } from 'lucide-react';
 
 import { INITIAL_RESUME_DATA } from '../data/resumeData';
@@ -126,7 +127,7 @@ export default function PortfolioPage() {
       )}
 
       {/* Sidebar (Desktop) */}
-      <aside className={`hidden lg:flex flex-col w-80 h-screen sticky top-0 p-6 border-r ${theme.sidebarBorder} ${theme.sidebarBg} backdrop-blur-sm transition-colors duration-300`}>
+      <aside className={`hidden lg:flex flex-col w-80 max-h-[90vh] overflow-auto sticky top-0 p-6 border-r ${theme.sidebarBorder} ${theme.sidebarBg} backdrop-blur-sm transition-colors duration-300`}>
         <div className="mb-10 px-2 flex justify-between items-start">
             <div>
                 <h1 className={`text-2xl font-bold ${theme.textHeader} tracking-tight`}>
@@ -157,7 +158,7 @@ export default function PortfolioPage() {
             <a href={data.profile.linkedin} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Linkedin size={20} /></a>
             <a href={`mailto:${data.profile.email}`} className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Mail size={20} /></a>
             <a href={data.profile.github} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Github size={20} /></a>
-            <a href={data.profile.resume} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><DownloadIcon size={20} /></a>
+            <a href={data.profile.resume} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><FileDownIcon size={20} /></a>
           </div>
         </div>
       </aside>
