@@ -3,7 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import PortfolioPage from './portfoliopage/portfoliopage'; 
-import { Analytics } from "@vercel/analytics/next"
+// Use the React entrypoint for Vercel Analytics in a Vite/CRA-style app
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   useEffect(() => {
