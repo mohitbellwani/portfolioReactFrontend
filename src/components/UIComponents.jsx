@@ -65,12 +65,12 @@ export const ProjectCard = ({ project, onSelect, isDark }) => {
   const theme = getThemeClasses(isDark);
   return (
     <div className={`group ${theme.cardBg} rounded-xl overflow-hidden border ${theme.cardBorder} shadow-sm ${theme.cardHoverBorder} transition-all hover:shadow-lg flex flex-col h-full`}>
-      <div className={`h-32 ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-stone-100 border-stone-200'} flex items-center justify-center relative overflow-hidden border-b`}>
+      {/* <div className={`h-32 ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-stone-100 border-stone-200'} flex items-center justify-center relative overflow-hidden border-b`}>
           <Code2 size={40} className={`${isDark ? 'text-slate-600' : 'text-stone-400'} group-hover:${theme.primaryText} group-hover:scale-110 transition-all duration-500`} />
-      </div>
+      </div> */}
       <div className="p-6 flex flex-col flex-1">
         <div className="flex justify-between items-start mb-2">
-          <h3 className={`text-lg font-bold ${theme.textHeader} group-hover:${theme.primaryText} transition-colors`}>{project.title}</h3>
+          <h3 className={`text-lg font-bold ${theme.textHeader} group-hover:${theme.primaryText} transition-colors text-center w-full`}>{project.title}</h3>
         </div>
         <p className={`text-xs ${theme.primaryText} mb-3 font-medium uppercase tracking-wider`}>{project.type}</p>
         <p className={`${theme.textMuted} text-sm mb-4 line-clamp-3 flex-1`}>{project.description}</p>
