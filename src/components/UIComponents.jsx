@@ -115,8 +115,8 @@ export const Footer = ({ isDark }) => {
   const theme = getThemeClasses(isDark);
   return (
     <footer className={`border-t ${theme.sidebarBorder} pt-8 mt-12 text-center ${theme.textMuted} text-sm transition-colors duration-300 pb-8`}>
-      <p>Passion project by Mohit Bellwani</p>
-      <p>Built with React & Tailwind CSS</p>
+      <p>Built with ❤️ by Mohit Bellwani</p>
+      {/* <p>Using React & Tailwind CSS</p> */}
     </footer>
   );
 };

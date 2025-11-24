@@ -102,7 +102,9 @@ export default function PortfolioPage() {
       
       {/* Mobile Header */}
       <div className={`lg:hidden fixed top-0 left-0 right-0 h-16 ${isDark ? 'bg-slate-950/90 border-slate-800' : 'bg-[#fdfbf7]/90 border-stone-200'} backdrop-blur-md border-b z-50 flex items-center justify-between px-4 shadow-sm transition-colors duration-300`}>
-        <span className={`text-lg font-bold ${theme.textHeader}`}>Mohit<span className="text-indigo-600">.Dev</span></span>
+        <span className={`text-lg font-bold ${theme.textHeader}`}>Mohit
+          {/* <span className="text-indigo-600">.Dev</span> */}
+          </span>
         <div className="flex items-center gap-2">
             <button onClick={toggleTheme} className={`p-2 rounded-full ${isDark ? 'bg-slate-800 text-yellow-400' : 'bg-stone-200 text-stone-600'}`}>
                 {isDark ? <Sun size={20} /> : <Moon size={20} />}
