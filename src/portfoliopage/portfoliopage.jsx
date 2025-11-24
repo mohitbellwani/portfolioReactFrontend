@@ -179,9 +179,9 @@ export default function PortfolioPage() {
                         <p className={`text-xl ${theme.textMuted} max-w-2xl leading-relaxed`}>
                         {data.profile.tagline}
                         </p>
-                        <div className={`flex flex-wrap gap-4 mt-6 text-sm font-medium ${theme.textMuted}`}>
-                            <span className="flex items-center gap-1.5"><MapPin size={16} className="text-indigo-600"/> {data.profile.location}</span>
-                            <span className="flex items-center gap-1.5"><Mail size={16} className="text-indigo-600"/> {data.profile.email}</span>
+                        <div className={`flex flex-wrap gap-4 mt-6 text-sm font-medium ${theme.textMuted} justify-center items-center`}>
+                          <span className="flex items-center gap-1.5"><MapPin size={16} className="text-indigo-600"/> {data.profile.location}</span>
+                          <span className="flex items-center gap-1.5"><Mail size={16} className="text-indigo-600"/> {data.profile.email}</span>
                         </div>
                     </div>
                     
@@ -207,7 +207,7 @@ export default function PortfolioPage() {
 
                     {/* Skills Section */}
                     <section id="skills" className="mb-24 scroll-mt-24">
-                    <SectionHeader title="Technical Arsenal" icon={Terminal} isDark={isDark} />
+                    <SectionHeader title="Technical Skills" icon={Terminal} isDark={isDark} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {data.skills.map((skillGroup, idx) => (
                         <SkillCard key={idx} {...skillGroup} isDark={isDark} />
