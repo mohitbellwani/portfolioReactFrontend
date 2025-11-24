@@ -34,6 +34,7 @@ const INITIAL_RESUME_DATA = {
     bio: "I am an experienced engineer specializing in Application Support and Development. From automating MongoDB reporting at Arkafincap to migrating legacy Silverlight apps to Blazor at QloudX, I focus on reducing manual effort and improving system efficiency.",
     email: "bellwanimohit@gmail.com",
     linkedin: "https://www.linkedin.com/in/mohit-bellwani/",
+    Github: "https://github.com/mohitbellwani",
     phone: "+91 9552201705",
     location: "Mumbai, India"
   },
@@ -41,7 +42,7 @@ const INITIAL_RESUME_DATA = {
     { 
       category: "Languages & Core", 
       icon: <Terminal size={20} />,
-      items: ["Python", "C#", "SQL", "Java"] 
+      items: ["Python", "C#", "SQL", "MongoDB", "JavaScript", "HTML5", "CSS3", "Java"] 
     },
     { 
       category: "Web Frameworks", 
@@ -56,7 +57,7 @@ const INITIAL_RESUME_DATA = {
     { 
       category: "Tools & DevOps", 
       icon: <Server size={20} />,
-      items: ["Git/Bitbucket", "Jira", "AWS (Basic)", "Jenkins", "Linux (Ubuntu)"] 
+      items: ["Git/Bitbucket", "Jira", "AWS (Basic)", "Postman", "Linux (Ubuntu)"] 
     },
     { 
       category: "Mobile", 
@@ -69,7 +70,7 @@ const INITIAL_RESUME_DATA = {
       id: 1,
       role: "Senior Executive Application Support",
       company: "Arkafincap",
-      period: "Sep 2024 - Present",
+      period: "Sep 2024 - Oct 2025",
       description: "Automated MongoDB Excel reporting via Python & MongoDB, improving reporting cadence by 50%. Enhanced Razorpay payment flows using razorpay integration with Google's Appscript and reduced incident resolution time by 20% through expert log analysis."
     },
     {
@@ -92,11 +93,31 @@ const INITIAL_RESUME_DATA = {
       company: "UGAM A MERKLE COMPANY",
       period: "Jan 2022 - May 2022",
       description: "Built Android data-scraping workflows using Python+Appium. Automated data acquisition with Python+SQL, reducing manual prep by 40%."
+    },
+    {
+      id: 5,
+      role: "Graduate Trainee",
+      company: "Tata Consultancy Services",
+      period: "Aug 2020 - Jan 2021",
+      description: "Foundation in software quality assurance and support: Performed sanity testing for web applications, resolved production issues with PHP/MySQL data corrections, and utilized TortoiseSVN for version control in an agile environment."
     }
   ],
   projects: [
     {
       id: 1,
+      title: "Portfolio Website",
+      type: "Web App",
+      description: "A personal portfolio website showcasing skills, experience, and projects.",
+      tags: ["React","JavaScript","Tailwind CSS", "Vercel"],
+      link: "#",
+      github: "https://github.com/mohitbellwani/portfolioReactFrontend",
+      screenshots: [
+        
+      ],
+      longDescription: "This is my personal portfolio website built using React and Tailwind CSS. It showcases my skills, experience, and projects in a clean and modern design. The site is fully responsive and optimized for performance, providing an excellent user experience across all devices."
+    },
+    {
+      id: 2,
       title: "SMS GPS Location",
       type: "Android App",
       description: "An Android app that sends user location on-demand when a specific keyword is received via SMS from an authorized contact.",
@@ -122,7 +143,7 @@ const INITIAL_RESUME_DATA = {
       longDescription: "This project was born out of a need for simple, text-based location tracking. It leverages Android's SMS BroadcastReceiver to listen for specific secure keywords. When triggered, it queries the device GPS and silently replies with coordinates. It features a robust permission handling system and Google Maps integration."
     },
     {
-      id: 2,
+      id: 3,
       title: "Adventures Of The Lost World",
       type: "Educational Game",
       description: "Developed a video game to make education engaging for young students. Integrated fun gameplay with learning elements.",
@@ -161,7 +182,7 @@ const INITIAL_RESUME_DATA = {
     },
     {
       degree: "B.Sc. Computer Science",
-      school: "Vivekanand Education Society's College",
+      school: "Vivekanand Education Society's College of Arts, Science and Commerce",
       year: "Oct 2020",
       detail: "First Class"
     }
@@ -485,8 +506,9 @@ export default function PortfolioPage() {
           <div className="flex gap-4 justify-center">
             <a href={data.profile.linkedin} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Linkedin size={20} /></a>
             <a href={`mailto:${data.profile.email}`} className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Mail size={20} /></a>
+            <a href={data.profile.github} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Github size={20} /></a>
           </div>
-          <p className={`text-center ${theme.textMuted} text-[10px] mt-4`}>© 2025 Mohit Bellwani</p>
+          <p className={`text-center ${theme.textMuted} text-[10px] mt-4`}>2025 Mohit Bellwani</p>
         </div>
       </aside>
 
@@ -600,6 +622,7 @@ export default function PortfolioPage() {
                 
                 {/* Footer */}
                 <footer className={`border-t ${theme.sidebarBorder} pt-8 text-center ${theme.textMuted} text-sm transition-colors duration-300`}>
+                <p>Passion project by Mohit Bellwani</p>
                 <p>Built with React & Tailwind CSS</p>
                 </footer>
             </>
