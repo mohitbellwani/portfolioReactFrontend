@@ -116,7 +116,7 @@ export default function PortfolioPage() {
       {isMobileMenuOpen && (
         <div className={`fixed inset-0 z-40 ${theme.bg} pt-20 px-6 lg:hidden`}>
           <div className="flex flex-col gap-2">
-            <NavItem section="about" active={activeSection} onClick={scrollToSection} icon={User} label="Profile" isDark={isDark} />
+            <NavItem section="about" active={activeSection} onClick={scrollToSection} icon={User} label="Profile Summary" isDark={isDark} />
             <NavItem section="experience" active={activeSection} onClick={scrollToSection} icon={Briefcase} label="Experience" isDark={isDark} />
             <NavItem section="skills" active={activeSection} onClick={scrollToSection} icon={Cpu} label="Tech Stack" isDark={isDark} />
             <NavItem section="projects" active={activeSection} onClick={scrollToSection} icon={Code2} label="Projects" isDark={isDark} />
@@ -145,7 +145,7 @@ export default function PortfolioPage() {
         </div>
 
         <nav className="flex-1 flex flex-col gap-2">
-          <NavItem section="about" active={!selectedProject && activeSection === 'about' ? 'about' : ''} onClick={scrollToSection} icon={User} label="Profile" isDark={isDark} />
+          <NavItem section="about" active={!selectedProject && activeSection === 'about' ? 'about' : ''} onClick={scrollToSection} icon={User} label="Profile Summary" isDark={isDark} />
           <NavItem section="experience" active={!selectedProject && activeSection === 'experience' ? 'experience' : ''} onClick={scrollToSection} icon={Briefcase} label="Experience" isDark={isDark} />
           <NavItem section="skills" active={!selectedProject && activeSection === 'skills' ? 'skills' : ''} onClick={scrollToSection} icon={Cpu} label="Tech Stack" isDark={isDark} />
           <NavItem section="projects" active={selectedProject || activeSection === 'projects' ? 'projects' : ''} onClick={scrollToSection} icon={Code2} label="Projects" isDark={isDark} />

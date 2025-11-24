@@ -142,7 +142,7 @@ export const INITIAL_RESUME_DATA = {
       detail: "Certificate of Merit Holder (3rd Rank)"
     },
     {
-      degree: "Bacthlor of Science(B.Sc.) - Computer Science ",
+      degree: "Bachelor of Science(B.Sc.) - Computer Science ",
       school: "Vivekanand Education Society's College of Arts, Science and Commerce",
       year: "Oct 2020",
       detail: "First Class"
