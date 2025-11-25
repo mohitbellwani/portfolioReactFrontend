@@ -39,7 +39,7 @@ export const SkillCard = ({ category, items, icon, isDark }) => {
 export const TimelineItem = ({ role, company, period, description, isLast, isDark }) => {
   const theme = getThemeClasses(isDark);
   return (
-    <div className={`relative pl-8 pb-8 ${theme.cardBg} p-6 rounded-2xl border ${theme.cardBorder} shadow-sm transition-colors duration-300`}>
+    <div className="relative pl-8 pb-12 last:pb-0">
       {!isLast && (
         <div className={`absolute left-[7px] top-2 bottom-0 w-0.5 ${isDark ? 'bg-slate-800' : 'bg-stone-300'}`} />
       )}

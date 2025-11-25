@@ -222,14 +222,14 @@ export default function PortfolioPage() {
                     {/* Experience Section */}
                     <section id="experience" className="mb-32 scroll-mt-24">
                     <SectionHeader title="Work Experience" icon={Briefcase} isDark={isDark} />
-                    <div className="space-y-2">
+                    <div className={`${theme.cardBg} p-8 rounded-2xl border ${theme.cardBorder} shadow-sm transition-colors duration-300`}>
                         {data.experience.map((exp, index) => (
-                        <TimelineItem 
-                            key={exp.id} 
-                            {...exp} 
-                            isLast={index === data.experience.length - 1} 
-                            isDark={isDark}
-                        />
+                            <TimelineItem 
+                                key={exp.id} 
+                                {...exp} 
+                                isLast={index === data.experience.length - 1} 
+                                isDark={isDark}
+                            />
                         ))}
                     </div>
                     </section>
