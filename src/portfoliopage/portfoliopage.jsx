@@ -27,20 +27,6 @@ export default function PortfolioPage() {
 
   const toggleTheme = () => setIsDark(!isDark);
 
-  // Set sidebar height dynamically
-  useEffect(() => {
-    const handleResize = () => {
-      if (sidebarRef.current) {
-        sidebarRef.current.style.height = `${window.innerHeight - 64}px`;
-      }
-    };
-    
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initial set
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   // Synchronize Body Background
   useEffect(() => {
     if (isDark) {
@@ -136,7 +122,7 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className={`min-h-screen w-full ${theme.bg} ${theme.text} font-sans flex flex-col lg:flex-row lg:items-start transition-colors duration-300`}>
+    <div className={`w-full ${theme.bg} ${theme.text} font-sans flex flex-col lg:flex-row transition-colors duration-300`}>
       
       {/* Mobile Header */}
       <div className={`lg:hidden fixed top-0 left-0 right-0 h-16 ${isDark ? 'bg-slate-950/90 border-slate-800' : 'bg-[#fdfbf7]/90 border-stone-200'} backdrop-blur-md border-b z-50 flex items-center justify-between px-4 shadow-sm transition-colors duration-300`}>
@@ -167,7 +153,7 @@ export default function PortfolioPage() {
       )}
 
       {/* Sidebar (Desktop) */}
-      <aside ref={sidebarRef} className={`hidden lg:flex flex-col w-80 sticky top-0 border-r ${theme.sidebarBorder} ${theme.sidebarBg} backdrop-blur-sm transition-colors duration-300 overflow-y-auto`}>
+      <aside ref={sidebarRef} className={`hidden lg:flex flex-col w-80 sticky top-4 self-start h-[calc(100vh-2rem)] rounded-2xl border ${theme.sidebarBorder} ${theme.sidebarBg} backdrop-blur-sm transition-colors duration-300`}>
         <div className="mb-10 px-4 pt-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
                 <MBLogo isDark={isDark} size={40} />
@@ -187,7 +173,7 @@ export default function PortfolioPage() {
             </button>
         </div>
 
-        <nav className="flex-1 flex flex-col gap-2 overflow-y-auto">
+        <nav className="flex-1 flex flex-col gap-2 px-4 overflow-y-auto">
           <NavItem section="about" active={!selectedProject && activeSection === 'about' ? 'about' : ''} onClick={scrollToSection} icon={User} label="Profile Summary" isDark={isDark} />
           <NavItem section="experience" active={!selectedProject && activeSection === 'experience' ? 'experience' : ''} onClick={scrollToSection} icon={Briefcase} label="Experience" isDark={isDark} />
           <NavItem section="skills" active={!selectedProject && activeSection === 'skills' ? 'skills' : ''} onClick={scrollToSection} icon={Cpu} label="Tech Stack" isDark={isDark} />
@@ -195,7 +181,7 @@ export default function PortfolioPage() {
           <NavItem section="education" active={!selectedProject && activeSection === 'education' ? 'education' : ''} onClick={scrollToSection} icon={GraduationCap} label="Education" isDark={isDark} />
         </nav>
 
-        <div className={`mt-auto pt-6 border-t ${theme.sidebarBorder} px-2`}>
+        <div className={`mt-auto pt-6 pb-6 border-t ${theme.sidebarBorder} px-4`}>
           <div className="flex gap-4 justify-center">
             <a href={data.profile.linkedin} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Linkedin size={20} /></a>
             <a href={`mailto:${data.profile.email}`} className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Mail size={20} /></a>
@@ -206,7 +192,7 @@ export default function PortfolioPage() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-6 lg:p-16 pt-24 max-w-5xl mx-auto w-full flex flex-col min-h-screen">
+      <main className="flex-1 p-6 lg:p-12 pt-24 max-w-5xl mx-auto w-full flex flex-col lg:overflow-y-auto">
         
         <div className="flex-1">
             {selectedProject ? (
@@ -214,7 +200,7 @@ export default function PortfolioPage() {
             ) : (
                 <>
                     {/* Hero / About Section */}
-                    <section id="about" className="mb-24 scroll-mt-24">
+                    <section id="about" className="mb-32 scroll-mt-24">
                     <div className={`${theme.cardBg} p-8 rounded-2xl border ${theme.cardBorder} shadow-sm mb-10 transition-colors duration-300`}>
                         <h1 className={`text-4xl lg:text-5xl font-bold ${theme.textHeader} mb-4`}>
                         Hello, I'm <span className="text-indigo-600">Mohit</span>
@@ -234,7 +220,7 @@ export default function PortfolioPage() {
                     </section>
 
                     {/* Experience Section */}
-                    <section id="experience" className="mb-24 scroll-mt-24">
+                    <section id="experience" className="mb-32 scroll-mt-24">
                     <SectionHeader title="Work Experience" icon={Briefcase} isDark={isDark} />
                     <div className="space-y-2">
                         {data.experience.map((exp, index) => (
@@ -249,7 +235,7 @@ export default function PortfolioPage() {
                     </section>
 
                     {/* Skills Section */}
-                    <section id="skills" className="mb-24 scroll-mt-24">
+                    <section id="skills" className="mb-32 scroll-mt-24">
                     <SectionHeader title="Technical Skills" icon={Terminal} isDark={isDark} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {data.skills.map((skillGroup, idx) => (
@@ -259,7 +245,7 @@ export default function PortfolioPage() {
                     </section>
 
                     {/* Projects Section */}
-                    <section id="projects" className="mb-24 scroll-mt-24">
+                    <section id="projects" className="mb-32 scroll-mt-24">
                     <SectionHeader title="Featured Projects" icon={Code2} isDark={isDark} />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {data.projects.map((project) => (
@@ -269,7 +255,7 @@ export default function PortfolioPage() {
                     </section>
 
                     {/* Education & Certifications */}
-                    <section id="education" className="mb-24 scroll-mt-24">
+                    <section id="education" className="mb-32 scroll-mt-24">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                         
                         {/* Education Column */}
