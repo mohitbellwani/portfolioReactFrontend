@@ -52,6 +52,28 @@ export default function PortfolioPage() {
     }
   }, [isDark]);
 
+  // Dynamically update favicon based on theme
+  useEffect(() => {
+    const favicon = document.getElementById('favicon');
+    if (favicon) {
+      const bgColor = isDark ? '#1e293b' : '#e7e5e4'; // slate-800 or stone-200
+      const textColor = isDark ? '#818cf8' : '#4f46e5'; // indigo-400 or indigo-600
+
+      const svgString = `
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect width="100" height="100" rx="16" fill="${bgColor}" />
+          <text x="50" y="50" dominant-baseline="central" text-anchor="middle" fill="${textColor}" font-size="50" font-family="Arial, sans-serif" font-weight="bold" dy="2">
+            MB
+          </text>
+        </svg>
+      `;
+
+      // Encode the SVG string and set it as the href for the favicon
+      const encodedSvg = encodeURIComponent(svgString);
+      favicon.href = `data:image/svg+xml,${encodedSvg}`;
+    }
+  }, [isDark]);
+
   // SCROLL SPY LOGIC
   useEffect(() => {
     // If we are in project detail view, we don't spy on scroll
@@ -146,14 +168,16 @@ export default function PortfolioPage() {
 
       {/* Sidebar (Desktop) */}
       <aside ref={sidebarRef} className={`hidden lg:flex flex-col w-80 sticky top-0 border-r ${theme.sidebarBorder} ${theme.sidebarBg} backdrop-blur-sm transition-colors duration-300 overflow-y-auto`}>
-        <div className="mb-10 px-4 pt-4 flex justify-between items-center">
-            <div>
-                <h1 className={`text-2xl font-bold ${theme.textHeader} tracking-tight`}>
-                    Mohit Bellwani
-                </h1>
-                <p className={`${theme.textMuted} text-xs mt-2 font-mono uppercase tracking-widest`}>Full Stack Engineer</p>
+        <div className="mb-10 px-4 pt-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+                <MBLogo isDark={isDark} size={40} />
+                <div>
+                    <h1 className={`text-xl font-bold ${theme.textHeader} tracking-tight`}>
+                        Mohit Bellwani
+                    </h1>
+                    <p className={`${theme.textMuted} text-xs mt-1 font-mono uppercase tracking-widest`}>Application & Support Engineer</p>
+                </div>
             </div>
-            {/* Toggle Button Desktop */}
             <button 
                 onClick={toggleTheme} 
                 className={`p-3 rounded-full transition-all ${isDark ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-stone-100 text-stone-500 hover:bg-stone-200'}`}
