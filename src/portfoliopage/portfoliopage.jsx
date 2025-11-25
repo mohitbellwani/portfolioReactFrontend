@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Linkedin, Mail, Github, DownloadIcon, User, Briefcase, 
   Cpu, Code2, GraduationCap, Award, MapPin, 
@@ -6,6 +6,7 @@ import {
   FileDownIcon
 } from 'lucide-react';
 
+import MBLogo from '../Logo'; // Import the logo
 import { INITIAL_RESUME_DATA } from '../data/resumeData';
 import { getThemeClasses } from '../utils/theme';
 import ProjectDetailView from '../components/ProjectDetail';
@@ -22,8 +23,23 @@ export default function PortfolioPage() {
   
   // THEME STATE: Default is false (Light Mode)
   const [isDark, setIsDark] = useState(false);
+  const sidebarRef = useRef(null);
 
   const toggleTheme = () => setIsDark(!isDark);
+
+  // Set sidebar height dynamically
+  useEffect(() => {
+    const handleResize = () => {
+      if (sidebarRef.current) {
+        sidebarRef.current.style.height = `${window.innerHeight - 64}px`;
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial set
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Synchronize Body Background
   useEffect(() => {
@@ -98,7 +114,7 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className={`min-h-screen w-full ${theme.bg} ${theme.text} font-sans flex flex-col lg:flex-row transition-colors duration-300 overflow-x-hidden`}>
+    <div className={`min-h-screen w-full ${theme.bg} ${theme.text} font-sans flex flex-col lg:flex-row lg:items-start transition-colors duration-300`}>
       
       {/* Mobile Header */}
       <div className={`lg:hidden fixed top-0 left-0 right-0 h-16 ${isDark ? 'bg-slate-950/90 border-slate-800' : 'bg-[#fdfbf7]/90 border-stone-200'} backdrop-blur-md border-b z-50 flex items-center justify-between px-4 shadow-sm transition-colors duration-300`}>
@@ -129,25 +145,25 @@ export default function PortfolioPage() {
       )}
 
       {/* Sidebar (Desktop) */}
-      <aside className={`hidden lg:flex flex-col w-80 max-h-[90vh] overflow-auto sticky top-0 p-6 border-r ${theme.sidebarBorder} ${theme.sidebarBg} backdrop-blur-sm transition-colors duration-300`}>
-        <div className="mb-10 px-2 flex justify-between items-start">
+      <aside ref={sidebarRef} className={`hidden lg:flex flex-col w-80 sticky top-0 border-r ${theme.sidebarBorder} ${theme.sidebarBg} backdrop-blur-sm transition-colors duration-300 overflow-y-auto`}>
+        <div className="mb-10 px-4 pt-4 flex justify-between items-center">
             <div>
                 <h1 className={`text-2xl font-bold ${theme.textHeader} tracking-tight`}>
-                    Mohit <span className="text-indigo-600">Bellwani</span>
+                    Mohit Bellwani
                 </h1>
                 <p className={`${theme.textMuted} text-xs mt-2 font-mono uppercase tracking-widest`}>Full Stack Engineer</p>
             </div>
             {/* Toggle Button Desktop */}
             <button 
                 onClick={toggleTheme} 
-                className={`p-2 rounded-full transition-all ${isDark ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-stone-100 text-stone-500 hover:bg-stone-200'}`}
+                className={`p-3 rounded-full transition-all ${isDark ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-stone-100 text-stone-500 hover:bg-stone-200'}`}
                 title="Toggle Dark Mode"
             >
                 {isDark ? <Sun size={18} /> : <Moon size={18} />}
             </button>
         </div>
 
-        <nav className="flex-1 flex flex-col gap-2">
+        <nav className="flex-1 flex flex-col gap-2 overflow-y-auto">
           <NavItem section="about" active={!selectedProject && activeSection === 'about' ? 'about' : ''} onClick={scrollToSection} icon={User} label="Profile Summary" isDark={isDark} />
           <NavItem section="experience" active={!selectedProject && activeSection === 'experience' ? 'experience' : ''} onClick={scrollToSection} icon={Briefcase} label="Experience" isDark={isDark} />
           <NavItem section="skills" active={!selectedProject && activeSection === 'skills' ? 'skills' : ''} onClick={scrollToSection} icon={Cpu} label="Tech Stack" isDark={isDark} />
@@ -166,7 +182,7 @@ export default function PortfolioPage() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-6 lg:p-16 lg:pt-16 pt-24 max-w-5xl mx-auto w-full flex flex-col min-h-screen">
+      <main className="flex-1 p-6 lg:p-16 pt-24 max-w-5xl mx-auto w-full flex flex-col min-h-screen">
         
         <div className="flex-1">
             {selectedProject ? (

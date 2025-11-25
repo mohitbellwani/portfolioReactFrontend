@@ -1,0 +1,6 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+    <rect width="50" height="50" rx="8" fill="#1a202c"/>
+    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="24" fill="#a0aec0" dy=".1em">
+        &lt;MB/&gt;
+    </text>
+</svg>

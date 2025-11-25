@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css' // Assuming this file has styles for .App
 import PortfolioPage from './portfoliopage/portfoliopage'; 
 // Use the React entrypoint for Vercel Analytics in a Vite/CRA-style app
 import { Analytics } from '@vercel/analytics/react';

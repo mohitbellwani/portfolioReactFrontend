@@ -1,0 +1,31 @@
+.portfolio-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.portfolio-body {
+    display: flex;
+    flex-direction: row;
+}
+
+.left-panel {
+    width: 30%;
+    padding: 1rem;
+}
+
+.right-panel {
+    width: 70%;
+    padding: 1rem;
+}
+
+@media (min-width: 768px) {
+    .left-panel {
+        position: sticky;
+        top: 0;
+        height: 100vh; /* Ensure it takes up height to be sticky */
+        overflow-y: auto; /* Allow scrolling within the panel if content is long */
+    }
+}
