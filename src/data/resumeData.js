@@ -33,7 +33,7 @@ export const INITIAL_RESUME_DATA = {
     { 
       category: "Tools & DevOps", 
       icon: Server,
-      items: ["Git/Bitbucket", "Jira", "AWS (Basic)", "Postman", "Linux (Ubuntu)"] 
+      items: ["Git/Bitbucket", "Jira", "AWS (Basic)", "Postman", "Linux (Ubuntu)","LOS"] 
     },
     { 
       category: "Mobile", 
@@ -47,7 +47,7 @@ export const INITIAL_RESUME_DATA = {
       role: "Senior Executive Application Support",
       company: "Arkafincap",
       period: "Sep 2024 - Oct 2025",
-      description: "Automated MongoDB Excel reporting via Python & MongoDB, improving reporting cadence by 50%. Enhanced Razorpay payment flows using razorpay integration with Google's Appscript and reduced incident resolution time by 20% through expert log analysis."
+      description: "Automated MongoDB Excel reporting via Python & MongoDB, improving reporting cadence by 50%. Enhanced Razorpay payment flows using razorpay integration with Google's Appscript and reduced incident resolution time for LOS Support by 20% through expert log analysis."
     },
     {
       id: 2,
