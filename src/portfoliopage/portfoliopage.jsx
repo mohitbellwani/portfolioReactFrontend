@@ -141,13 +141,22 @@ export default function PortfolioPage() {
 
       {/* Mobile Navigation Overlay */}
       {isMobileMenuOpen && (
-        <div className={`fixed inset-0 z-40 ${theme.bg} pt-20 px-6 lg:hidden`}>
+        <div className={`fixed inset-0 z-40 ${theme.bg} pt-20 px-6 lg:hidden flex flex-col`}>
           <div className="flex flex-col gap-2">
             <NavItem section="about" active={activeSection} onClick={scrollToSection} icon={User} label="Profile Summary" isDark={isDark} />
             <NavItem section="experience" active={activeSection} onClick={scrollToSection} icon={Briefcase} label="Experience" isDark={isDark} />
             <NavItem section="skills" active={activeSection} onClick={scrollToSection} icon={Cpu} label="Tech Stack" isDark={isDark} />
             <NavItem section="projects" active={activeSection} onClick={scrollToSection} icon={Code2} label="Projects" isDark={isDark} />
             <NavItem section="education" active={activeSection} onClick={scrollToSection} icon={GraduationCap} label="Education" isDark={isDark} />
+          </div>
+
+          <div className={`mt-auto mb-8 pt-6 border-t ${theme.sidebarBorder}`}>
+            <div className="flex gap-6 justify-center">
+              <a href={data.profile.linkedin} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Linkedin size={24} /></a>
+              <a href={`mailto:${data.profile.email}`} className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Mail size={24} /></a>
+              <a href={data.profile.github} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><Github size={24} /></a>
+              <a href={data.profile.resume} target="_blank" rel="noreferrer" className={`${theme.textMuted} hover:text-indigo-600 hover:scale-110 transition-all`}><FileDownIcon size={24} /></a>
+            </div>
           </div>
         </div>
       )}
