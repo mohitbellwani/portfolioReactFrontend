@@ -315,7 +315,7 @@ export default function PortfolioPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
                   {/* Education Column */}
-                  <motion.div variants={slideIn("left", "tween", 0.2, 1)}>
+                  <motion.div variants={fadeIn("up", "tween", 0.2, 1)}>
                     <SectionHeader title="Education" icon={GraduationCap} isDark={isDark} />
                     <div className="space-y-8">
                       {data.education.map((edu, idx) => (
@@ -332,7 +332,7 @@ export default function PortfolioPage() {
                   </motion.div>
 
                   {/* Certifications Column */}
-                  <motion.div variants={slideIn("right", "tween", 0.2, 1)}>
+                  <motion.div variants={fadeIn("up", "tween", 0.4, 1)}>
                     <SectionHeader title="Certifications" icon={Award} isDark={isDark} />
                     <div className="space-y-4">
                       {data.certifications.map((cert, idx) => (
