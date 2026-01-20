@@ -240,7 +240,7 @@ export default function PortfolioPage() {
                   </div>
                 </motion.div>
 
-                <motion.div variants={fadeIn("", "", 0.3, 1)} className={`prose max-w-none ${theme.textMuted} leading-7 text-lg text-justify`}>
+                <motion.div variants={textVariant(1.1)} className={`prose max-w-none ${theme.textMuted} leading-7 text-lg text-justify`}>
                   <p>{data.profile.bio}</p>
                 </motion.div>
               </motion.section>
