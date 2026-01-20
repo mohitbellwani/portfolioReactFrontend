@@ -48,13 +48,36 @@ export const TimelineItem = ({ role, company, period, description, isLast, isDar
   const theme = getThemeClasses(isDark);
   return (
     <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-50px" }}
       variants={fadeIn("left", "spring", index * 0.2, 0.75)}
       className="relative pl-8 pb-12 last:pb-0"
     >
       {!isLast && (
-        <div className={`absolute left-[7px] top-2 bottom-0 w-0.5 ${isDark ? 'bg-slate-800' : 'bg-stone-300'}`} />
+        <motion.div
+          initial={{ scaleY: 0 }}
+          whileInView={{ scaleY: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: "easeInOut" }}
+          style={{ originY: 0 }}
+          className={`absolute left-[7px] top-2 bottom-0 w-0.5 ${isDark ? 'bg-slate-800' : 'bg-stone-300'}`}
+        />
       )}
-      <div className={`absolute left-0 top-2 w-4 h-4 rounded-full ${isDark ? 'bg-indigo-500 ring-slate-950' : 'bg-indigo-600 ring-[#fdfbf7]'} ring-4`} />
+
+      <motion.div
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className={`absolute left-0 top-2 w-4 h-4 rounded-full ${isDark ? 'bg-indigo-500 ring-slate-950' : 'bg-indigo-600 ring-[#fdfbf7]'} ring-4 z-10 flex items-center justify-center`}
+      >
+        <motion.div
+          animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className={`absolute w-full h-full rounded-full ${isDark ? 'bg-indigo-500' : 'bg-indigo-600'} -z-10`}
+        />
+      </motion.div>
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
         <h3 className={`text-xl font-bold ${theme.textHeader}`}>{role}</h3>
