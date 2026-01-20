@@ -2,14 +2,21 @@ import React from 'react';
 import { ArrowLeft, Github } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { getThemeClasses } from '../utils/theme';
+import { motion } from 'framer-motion';
+import { slideIn } from '../utils/motion';
 
 const ProjectDetailView = ({ project, onBack, isDark }) => {
     if (!project) return null;
     const theme = getThemeClasses(isDark);
 
     return (
-        <div className="animate-in slide-in-from-right duration-300">
-            <button 
+        <motion.div
+            variants={slideIn("right", "tween", 0, 0.5)}
+            initial="hidden"
+            animate="show"
+            className=""
+        >
+            <button
                 onClick={onBack}
                 className={`mb-6 flex items-center gap-2 ${theme.textMuted} hover:${theme.primaryText} transition-colors`}
             >
@@ -55,10 +62,10 @@ const ProjectDetailView = ({ project, onBack, isDark }) => {
                             )}
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

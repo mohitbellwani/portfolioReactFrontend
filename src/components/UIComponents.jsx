@@ -1,6 +1,8 @@
 import React from 'react';
 import { Briefcase, ExternalLink, Code2 } from 'lucide-react';
 import { getThemeClasses } from '../utils/theme';
+import { motion } from 'framer-motion';
+import { fadeIn } from '../utils/motion';
 
 export const SectionHeader = ({ title, icon: Icon, isDark }) => {
   const theme = getThemeClasses(isDark);
@@ -14,11 +16,17 @@ export const SectionHeader = ({ title, icon: Icon, isDark }) => {
   );
 };
 
-export const SkillCard = ({ category, items, icon, isDark }) => {
+export const SkillCard = ({ category, items, icon, isDark, index }) => {
   const theme = getThemeClasses(isDark);
   const IconComp = icon;
   return (
-    <div className={`${theme.cardBg} p-5 rounded-xl border ${theme.cardBorder} ${theme.cardHoverBorder} transition-all duration-300 hover:shadow-md group`}>
+    <motion.div
+
+      variants={fadeIn("right", "spring", index * 0.1, 0.75)}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className={`${theme.cardBg} p-5 rounded-xl border ${theme.cardBorder} ${theme.cardHoverBorder} transition-all duration-300 hover:shadow-md group`}
+    >
       <div className="flex items-center gap-3 mb-4">
         <div className={`${theme.primaryText} group-hover:scale-110 transition-transform duration-300`}>
           {IconComp ? <IconComp size={20} /> : null}
@@ -32,19 +40,22 @@ export const SkillCard = ({ category, items, icon, isDark }) => {
           </span>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
-export const TimelineItem = ({ role, company, period, description, isLast, isDark }) => {
+export const TimelineItem = ({ role, company, period, description, isLast, isDark, index }) => {
   const theme = getThemeClasses(isDark);
   return (
-    <div className="relative pl-8 pb-12 last:pb-0">
+    <motion.div
+      variants={fadeIn("left", "spring", index * 0.2, 0.75)}
+      className="relative pl-8 pb-12 last:pb-0"
+    >
       {!isLast && (
         <div className={`absolute left-[7px] top-2 bottom-0 w-0.5 ${isDark ? 'bg-slate-800' : 'bg-stone-300'}`} />
       )}
       <div className={`absolute left-0 top-2 w-4 h-4 rounded-full ${isDark ? 'bg-indigo-500 ring-slate-950' : 'bg-indigo-600 ring-[#fdfbf7]'} ring-4`} />
-      
+
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
         <h3 className={`text-xl font-bold ${theme.textHeader}`}>{role}</h3>
         <span className={`text-sm font-mono ${theme.primaryText} ${theme.primaryBgLight} px-2 py-0.5 rounded w-fit mt-1 sm:mt-0 border ${isDark ? 'border-transparent' : 'border-indigo-100'}`}>
@@ -57,14 +68,19 @@ export const TimelineItem = ({ role, company, period, description, isLast, isDar
       <p className={`${theme.textMuted} text-sm leading-relaxed`}>
         {description}
       </p>
-    </div>
+    </motion.div>
   );
 };
 
-export const ProjectCard = ({ project, onSelect, isDark }) => {
+export const ProjectCard = ({ project, onSelect, isDark, index }) => {
   const theme = getThemeClasses(isDark);
   return (
-    <div className={`group ${theme.cardBg} rounded-xl overflow-hidden border ${theme.cardBorder} shadow-sm ${theme.cardHoverBorder} transition-all hover:shadow-lg flex flex-col h-full`}>
+    <motion.div
+      variants={fadeIn("up", "spring", index * 0.5, 0.75)}
+      whileHover={{ y: -5 }}
+      whileTap={{ scale: 0.98 }}
+      className={`group ${theme.cardBg} rounded-xl overflow-hidden border ${theme.cardBorder} shadow-sm ${theme.cardHoverBorder} transition-all hover:shadow-lg flex flex-col h-full`}
+    >
       {/* <div className={`h-32 ${isDark ? 'bg-slate-800 border-slate-700' : 'bg-stone-100 border-stone-200'} flex items-center justify-center relative overflow-hidden border-b`}>
           <Code2 size={40} className={`${isDark ? 'text-slate-600' : 'text-stone-400'} group-hover:${theme.primaryText} group-hover:scale-110 transition-all duration-500`} />
       </div> */}
@@ -74,40 +90,41 @@ export const ProjectCard = ({ project, onSelect, isDark }) => {
         </div>
         <p className={`text-xs ${theme.primaryText} mb-3 font-medium uppercase tracking-wider`}>{project.type}</p>
         <p className={`${theme.textMuted} text-sm mb-4 line-clamp-3 flex-1`}>{project.description}</p>
-        
+
         <div className="flex flex-wrap gap-2 mb-4">
-          {project.tags.slice(0,3).map((tag, i) => (
+          {project.tags.slice(0, 3).map((tag, i) => (
             <span key={i} className={`text-[10px] font-mono ${theme.tagText} ${theme.tagBg} px-2 py-1 rounded border`}>
               {tag}
             </span>
           ))}
         </div>
 
-        <button 
+        <button
           onClick={() => onSelect(project)}
           className={`mt-auto w-full py-2 flex items-center justify-center gap-2 text-sm font-medium ${theme.primaryText} ${theme.primaryBgLight} hover:bg-opacity-80 rounded-lg transition-colors`}
         >
           View Details <ExternalLink size={14} />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 export const NavItem = ({ section, active, onClick, icon: Icon, label, isDark }) => {
   const theme = getThemeClasses(isDark);
   return (
-    <button
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
       onClick={() => onClick(section)}
-      className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all duration-200 group ${
-        active === section 
-          ? `bg-indigo-600 text-white shadow-md ${isDark ? 'shadow-indigo-900/20' : ''}` 
-          : `${theme.textMuted} ${isDark ? 'hover:bg-slate-800 hover:text-slate-100' : 'hover:bg-stone-200 hover:text-stone-900'}`
-      }`}
+      className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all duration-200 group ${active === section
+        ? `bg-indigo-600 text-white shadow-md ${isDark ? 'shadow-indigo-900/20' : ''}`
+        : `${theme.textMuted} ${isDark ? 'hover:bg-slate-800 hover:text-slate-100' : 'hover:bg-stone-200 hover:text-stone-900'}`
+        }`}
     >
       <Icon size={18} className={active === section ? "text-white" : `${isDark ? 'text-slate-500' : 'text-stone-500'} group-hover:${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} />
       <span className="font-medium">{label}</span>
-    </button>
+    </motion.button>
   );
 };
 
