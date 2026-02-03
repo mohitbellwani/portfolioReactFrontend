@@ -15,63 +15,70 @@ export const INITIAL_RESUME_DATA = {
     location: "Mumbai, India"
   },
   skills: [
-    { 
-      category: "Languages & Core", 
+    {
+      category: "Languages & Core",
       icon: Terminal,
-      items: ["Python", "C#", "SQL", "MongoDB", "JavaScript", "HTML5", "CSS3", "Java"] 
+      items: ["Python", "C#", "SQL", "MongoDB", "JavaScript", "HTML5", "CSS3", "Java"]
     },
-    { 
-      category: "Web Frameworks", 
+    {
+      category: "Web Frameworks",
       icon: Layout,
-      items: ["Blazor", "Basic Angular", "ASP.NET Core", "Django REST"] 
+      items: ["Blazor", "Basic Angular", "ASP.NET Core", "Django REST"]
     },
-    { 
-      category: "Databases", 
+    {
+      category: "Databases",
       icon: Database,
-      items: ["MongoDB Atlas", "MySQL", "SQLite"] 
+      items: ["MongoDB Atlas", "MySQL", "SQLite"]
     },
-    { 
-      category: "Tools & DevOps", 
+    {
+      category: "Tools & DevOps",
       icon: Server,
-      items: ["Git/Bitbucket", "Jira", "AWS (Basic)", "Postman", "Linux (Ubuntu)","LOS"] 
+      items: ["Git/Bitbucket", "Jira", "AWS (Basic)", "Postman", "Linux (Ubuntu)", "LOS"]
     },
-    { 
-      category: "Mobile", 
+    {
+      category: "Mobile",
       icon: Smartphone,
-      items: ["Ionic", "Android (Java/XML)"] 
+      items: ["Ionic", "Android (Java/XML)"]
     }
   ],
   experience: [
     {
       id: 1,
+      role: "Freelance Software Developer",
+      company: "Self-Employed",
+      period: "Oct 2025 - Present",
+      description: "Architecting a scalable multi-vendor E-commerce platform for a supermarket chain using React, Python (FastAPI), and SQL. Engineered an offline-first Inventory Management desktop app for a hardware store using Tauri and SQLite. Designed a full-stack personal portfolio with dynamic content management via MongoDB Atlas."
+    },
+    {
+      id: 2,
       role: "Senior Executive Application Support",
       company: "Arkafincap",
       period: "Sep 2024 - Oct 2025",
       description: "Automated MongoDB Excel reporting via Python & MongoDB, improving reporting cadence by 50%. Enhanced Razorpay payment flows using razorpay integration with Google's Appscript and reduced incident resolution time for LOS Support by 20% through expert log analysis."
     },
     {
-      id: 2,
+      id: 3,
       role: "Developer",
       company: "QloudX",
       period: "Aug 2023 - Apr 2024",
       description: "Contributed to a Silverlight to Blazor .NET migration. Built reusable components that reduced UI effort by 20% and improved development times by 15%."
     },
     {
-      id: 3,
+      id: 4,
       role: "Intern Software Developer",
       company: "43 APP MART",
       period: "Jan 2023 - Jun 2023",
       description: "Developed a campus placement management app (Angular + MySQL). Implemented CRUD workflows reducing manual admin effort by 10%."
     },
     {
-      id: 4,
+      id: 5,
       role: "Intern Consultant",
       company: "UGAM A MERKLE COMPANY",
       period: "Jan 2022 - May 2022",
       description: "Built Android data-scraping workflows using Python+Appium. Automated data acquisition with Python+SQL, reducing manual prep by 40%."
     },
     {
-      id: 5,
+      id: 6,
       role: "Graduate Trainee",
       company: "Tata Consultancy Services",
       period: "Aug 2020 - Jan 2021",
@@ -112,7 +119,7 @@ export const INITIAL_RESUME_DATA = {
       link: "#",
       github: "https://github.com/mohitbellwani/Adventures-of-the-lost-world",
       screenshots: [
-        "/assets/AOTLW/1.jpeg", 
+        "/assets/AOTLW/1.jpeg",
         "/assets/AOTLW/2.jpeg",
         "/assets/AOTLW/3.jpeg",
         "/assets/AOTLW/4.jpeg",
