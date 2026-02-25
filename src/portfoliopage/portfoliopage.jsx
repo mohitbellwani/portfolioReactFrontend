@@ -295,25 +295,9 @@ export default function PortfolioPage() {
                       <span className={theme.accentLight}>{typeText}</span>
                       <span className={`${theme.accentNeon} animate-pulse`}>|</span>
                     </p>
-                    <p className={`text-base ${theme.textMuted} max-w-[500px] mb-6 leading-relaxed`}>
+                    <p className={`text-base ${theme.textMuted} max-w-[500px] mb-9 leading-relaxed`}>
                       {data.profile.tagline}
                     </p>
-
-                    {/* Open to Work Badge */}
-                    <div
-                      className={`inline-flex items-center gap-3 px-5 py-2.5 rounded-xl ${theme.accentBgLight} border ${theme.borderAccent} ${theme.accentLight} font-semibold text-sm mb-8`}
-                    >
-                      <span
-                        className="w-2.5 h-2.5 rounded-full"
-                        style={{
-                          background: isDark ? '#00b4ff' : '#f59e0b',
-                          boxShadow: isDark ? '0 0 10px #00b4ff' : '0 0 10px #f59e0b',
-                          animation: 'pulse 2s ease-in-out infinite',
-                        }}
-                      />
-                      Open to Work — Full-time / Remote / On-site
-                    </div>
-
                     <div className="flex gap-3 flex-wrap">
                       <a
                         href="#projects"
@@ -601,7 +585,21 @@ export default function PortfolioPage() {
                   ))}
                 </div>
 
-
+                {/* Open to Work Badge */}
+                <motion.div
+                  variants={fadeIn("up", "tween", 0.5, 0.75)}
+                  className={`inline-flex items-center gap-3 px-6 py-3 rounded-xl ${theme.accentBgLight} border ${theme.borderAccent} ${theme.accentLight} font-semibold text-sm mt-10`}
+                >
+                  <span
+                    className="w-2.5 h-2.5 rounded-full"
+                    style={{
+                      background: isDark ? '#00b4ff' : '#f59e0b',
+                      boxShadow: isDark ? '0 0 10px #00b4ff' : '0 0 10px #f59e0b',
+                      animation: 'pulse 2s ease-in-out infinite',
+                    }}
+                  />
+                  Open to Work — Full-time / Remote / On-site
+                </motion.div>
               </div>
             </motion.section>
           </>
