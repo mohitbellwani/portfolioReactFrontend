@@ -1,5 +1,5 @@
 import React from 'react';
-import { Briefcase, ExternalLink, Code2 } from 'lucide-react';
+import { Briefcase, ExternalLink, Code2, Github } from 'lucide-react';
 import { getThemeClasses } from '../utils/theme';
 import { motion } from 'framer-motion';
 import { fadeIn } from '../utils/motion';
@@ -123,8 +123,45 @@ export const ProjectCard = ({ project, onSelect, isDark, index }) => {
       <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-br from-[rgba(59,130,246,0.08)] to-transparent' : 'bg-gradient-to-br from-[rgba(245,158,11,0.06)] to-transparent'} opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none`} />
 
       <div className="p-8 flex flex-col flex-1 relative z-[1]">
-        <div className={`font-mono-brand text-[11px] uppercase tracking-[2px] ${theme.accentNeon} mb-2`}>
-          {project.type}
+        <div className="flex items-start justify-between mb-2">
+          <div className={`font-mono-brand text-[11px] uppercase tracking-[2px] ${theme.accentNeon}`}>
+            {project.type}
+          </div>
+          {/* Quick-access icons */}
+          <div className="flex gap-2">
+            {project.liveDemo && (
+              <a href={project.liveDemo} target="_blank" rel="noreferrer"
+                className={`w-8 h-8 rounded-lg border ${theme.border} ${theme.textMuted} flex items-center justify-center no-underline transition-all duration-300 ${theme.cardHoverBorder}`}
+                title="Live Demo"
+                style={{ boxShadow: 'none' }}
+                onMouseEnter={(e) => { e.currentTarget.style.boxShadow = isDark ? '0 0 12px rgba(59,130,246,0.2)' : '0 0 12px rgba(245,158,11,0.2)'; e.currentTarget.style.color = isDark ? '#60a5fa' : '#d97706'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.color = ''; }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <ExternalLink size={14} />
+              </a>
+            )}
+            {project.github && (
+              <a href={project.github} target="_blank" rel="noreferrer"
+                className={`w-8 h-8 rounded-lg border ${theme.border} ${theme.textMuted} flex items-center justify-center no-underline transition-all duration-300 ${theme.cardHoverBorder}`}
+                title="GitHub Repo"
+                style={{ boxShadow: 'none' }}
+                onMouseEnter={(e) => { e.currentTarget.style.boxShadow = isDark ? '0 0 12px rgba(59,130,246,0.2)' : '0 0 12px rgba(245,158,11,0.2)'; e.currentTarget.style.color = isDark ? '#60a5fa' : '#d97706'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.color = ''; }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Github size={14} />
+              </a>
+            )}
+            {!project.github && project.githubLabel && (
+              <span
+                className={`w-8 h-8 rounded-lg border ${theme.border} ${theme.textMuted} flex items-center justify-center cursor-default transition-all duration-300`}
+                title={project.githubLabel}
+              >
+                <Github size={14} />
+              </span>
+            )}
+          </div>
         </div>
         <h3 className={`text-xl font-bold ${theme.textHeader} mb-3`}>{project.title}</h3>
         <p className={`${theme.textSecondary} text-sm mb-5 line-clamp-3 flex-1 leading-relaxed`}>{project.description}</p>

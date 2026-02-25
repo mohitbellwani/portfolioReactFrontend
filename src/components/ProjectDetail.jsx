@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Github } from 'lucide-react';
+import { ArrowLeft, Github, ExternalLink, Code2 } from 'lucide-react';
 import ImageCarousel from './ImageCarousel';
 import { getThemeClasses } from '../utils/theme';
 import { motion } from 'framer-motion';
@@ -33,7 +33,15 @@ const ProjectDetailView = ({ project, onBack, isDark }) => {
                             <h1 className={`text-3xl font-bold ${theme.textHeader}`}>{project.title}</h1>
                             <span className={`${theme.accentLight} font-medium text-sm font-mono-brand uppercase tracking-wider`}>{project.type}</span>
                         </div>
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 flex-wrap">
+                            {project.liveDemo && (
+                                <a href={project.liveDemo} target="_blank" rel="noreferrer"
+                                    className={`flex items-center gap-2 px-5 py-2.5 ${theme.accentBg} text-white rounded-lg transition-all duration-300 no-underline font-semibold text-sm hover:-translate-y-0.5`}
+                                    style={{ boxShadow: isDark ? '0 0 20px rgba(59,130,246,0.18)' : '0 0 20px rgba(245,158,11,0.18)' }}
+                                >
+                                    <ExternalLink size={18} /> Live Demo
+                                </a>
+                            )}
                             {project.github && (
                                 <a href={project.github} target="_blank" rel="noreferrer"
                                     className={`flex items-center gap-2 px-5 py-2.5 ${theme.accentBg} text-white rounded-lg transition-all duration-300 no-underline font-semibold text-sm hover:-translate-y-0.5`}
@@ -41,6 +49,13 @@ const ProjectDetailView = ({ project, onBack, isDark }) => {
                                 >
                                     <Github size={18} /> GitHub Repo
                                 </a>
+                            )}
+                            {!project.github && project.githubLabel && (
+                                <span
+                                    className={`flex items-center gap-2 px-5 py-2.5 border ${theme.borderAccent} ${theme.accentLight} rounded-lg font-semibold text-sm font-mono-brand`}
+                                >
+                                    <Github size={18} /> {project.githubLabel}
+                                </span>
                             )}
                         </div>
                     </div>

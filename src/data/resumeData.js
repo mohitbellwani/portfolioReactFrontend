@@ -127,6 +127,19 @@ export const INITIAL_RESUME_DATA = {
         "/assets/AOTLW/6.jpeg",
       ],
       longDescription: "A 2D/3D hybrid educational game designed to teach basic history and science concepts. I used Ren'Py for the dialogue systems and Unity for the platforming sections. Character models were rigged using Mixamo."
+    },
+    {
+      id: 3,
+      title: "Inventory Pro",
+      type: "Full Stack Web App",
+      description: "A comprehensive inventory management system with real-time stock tracking, supplier management, transaction history, and audit logging. Features a responsive dashboard with analytics.",
+      tags: ["React", "Vite", "Python", "FastAPI", "Supabase", "Tailwind CSS", "Tauri"],
+      link: "#",
+      liveDemo: "https://inventory-pro-nu.vercel.app/",
+      github: null,
+      githubLabel: "Code on Demand",
+      screenshots: [],
+      longDescription: "Inventory Pro is a production-grade inventory management system built with a React + Vite frontend and Python FastAPI backend, backed by Supabase (PostgreSQL). It features comprehensive CRUD operations for categories, items, and suppliers, real-time stock tracking with transaction history, an audit logging system with 60-day auto-archival, and a responsive analytics dashboard. The system also has a Tauri-based desktop application for offline use."
     }
   ],
   certifications: [
