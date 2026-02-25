@@ -10,7 +10,7 @@ export const INITIAL_RESUME_DATA = {
     email: "bellwanimohit@gmail.com",
     linkedin: "https://www.linkedin.com/in/mohit-bellwani/",
     github: "https://github.com/mohitbellwani",
-    resume: "/assets/Mohit_Bellwani_Resume_V10.pdf",
+    resume: "/assets/Mohit_Bellwani_Resume_V11.pdf",
     phone: "+91 9552201705",
     location: "Mumbai, India"
   },

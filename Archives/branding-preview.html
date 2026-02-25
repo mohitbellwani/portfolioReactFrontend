@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohit Bellwani — Branding Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --accent: #00d4aa;
+      --accent-light: #00f5c8;
+      --accent-dark: #00a88a;
+      --text-primary: #1a1a2e;
+      --text-secondary: #4a4a6a;
+      --text-muted: #8888a8;
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --glass-shadow: rgba(0, 0, 0, 0.06);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #e8eaf6;
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ── Animated Background Blobs ── */
+    .bg-blobs {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.55;
+      animation: blobFloat 18s ease-in-out infinite alternate;
+    }
+
+    .blob-1 {
+      width: 500px;
+      height: 500px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      top: -10%;
+      left: -5%;
+      animation-duration: 20s;
+    }
+
+    .blob-2 {
+      width: 450px;
+      height: 450px;
+      background: linear-gradient(135deg, #00d4aa, #00b4d8);
+      top: 30%;
+      right: -8%;
+      animation-duration: 25s;
+      animation-delay: -5s;
+    }
+
+    .blob-3 {
+      width: 400px;
+      height: 400px;
+      background: linear-gradient(135deg, #a78bfa, #f472b6);
+      bottom: -10%;
+      left: 25%;
+      animation-duration: 22s;
+      animation-delay: -10s;
+    }
+
+    .blob-4 {
+      width: 350px;
+      height: 350px;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      top: 60%;
+      left: -10%;
+      animation-duration: 28s;
+      animation-delay: -3s;
+    }
+
+    .blob-5 {
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(135deg, #34d399, #6ee7b7);
+      top: 5%;
+      right: 20%;
+      animation-duration: 24s;
+      animation-delay: -8s;
+    }
+
+    @keyframes blobFloat {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(60px, -40px) scale(1.1);
+      }
+
+      66% {
+        transform: translate(-30px, 50px) scale(0.95);
+      }
+
+      100% {
+        transform: translate(40px, 20px) scale(1.05);
+      }
+    }
+
+    /* ── Glass Card ── */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px var(--glass-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Sticky Nav ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 16px 0;
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .nav-logo .logo-hex {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--accent), #667eea);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: #fff;
+      letter-spacing: 1px;
+      transform: rotate(-5deg);
+    }
+
+    .nav-logo span {
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-dark);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-socials {
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-socials a {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.06);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 18px;
+      transition: background 0.3s, color 0.3s, transform 0.3s;
+    }
+
+    .nav-socials a:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+    }
+
+    .hero .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .hero-text h1 .accent {
+      background: linear-gradient(135deg, var(--accent), #667eea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 22px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .hero-tagline {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      max-width: 480px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #667eea);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 212, 170, 0.4);
+    }
+
+    .btn-glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      color: var(--text-primary);
+    }
+
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.45);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Logo */
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-logo-ring {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0, 212, 170, 0.2), rgba(102, 126, 234, 0.2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: logoSpin 30s linear infinite;
+    }
+
+    .hero-logo-ring::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      border: 2px dashed rgba(0, 212, 170, 0.3);
+      animation: logoSpin 25s linear infinite reverse;
+    }
+
+    .hero-logo-inner {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #667eea);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 4px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+      animation: none;
+    }
+
+    @keyframes logoSpin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ── Typewriter ── */
+    .typewriter {
+      display: inline;
+    }
+
+    .typewriter-cursor {
+      animation: blink 1s step-end infinite;
+      color: var(--accent);
+      font-weight: 300;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* ── Sections ── */
+    section {
+      padding: 100px 0;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 48px;
+      text-align: center;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(135deg, var(--accent), #667eea);
+      border-radius: 2px;
+      margin: 12px auto 0;
+    }
+
+    /* ── About ── */
+    .about-card {
+      padding: 40px;
+      max-width: 800px;
+      margin: 0 auto 40px;
+    }
+
+    .about-card p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    /* ── Stats ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .stat-card {
+      padding: 32px 20px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 42px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), #667eea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* ── Experience Timeline ── */
+    .timeline {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      padding-left: 40px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--accent), #667eea, transparent);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -33px;
+      top: 36px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid #e8eaf6;
+      box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.2);
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .timeline-role {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .timeline-period {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-dark);
+      background: rgba(0, 212, 170, 0.1);
+      padding: 4px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .timeline-company {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .timeline-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── Skills ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .skill-card {
+      padding: 28px;
+    }
+
+    .skill-category {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .skill-category-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #667eea);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      background: rgba(0, 212, 170, 0.1);
+      color: var(--accent-dark);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      transition: all 0.3s;
+    }
+
+    .skill-tag:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    /* ── Projects ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 28px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .project-card {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-type {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .project-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .project-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 16px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .project-tags span {
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 500;
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .project-links a {
+      padding: 8px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .project-links .gh-link {
+      background: rgba(0, 0, 0, 0.06);
+      color: var(--text-primary);
+    }
+
+    .project-links .gh-link:hover {
+      background: #24292e;
+      color: #fff;
+    }
+
+    /* ── Contact ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .contact-card {
+      padding: 28px;
+      text-align: center;
+    }
+
+    .contact-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .contact-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .contact-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .contact-value a {
+      color: var(--accent-dark);
+      text-decoration: none;
+    }
+
+    .contact-value a:hover {
+      text-decoration: underline;
+    }
+
+    .open-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border-radius: 30px;
+      background: rgba(0, 212, 170, 0.12);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      color: var(--accent-dark);
+      font-weight: 600;
+      font-size: 14px;
+      margin: 32px auto 0;
+    }
+
+    .open-badge .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.3);
+      }
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--text-muted);
+      font-size: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Preview Banner ── */
+    .preview-banner {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 200;
+      padding: 16px 24px;
+      border-radius: 16px;
+      background: rgba(30, 30, 60, 0.9);
+      backdrop-filter: blur(12px);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      max-width: 300px;
+      line-height: 1.5;
+    }
+
+    .preview-banner strong {
+      color: var(--accent-light);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero .container {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-text h1 {
+        font-size: 38px;
+      }
+
+      .hero-ctas {
+        justify-content: center;
+      }
+
+      .hero-tagline {
+        margin: 0 auto 32px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero-visual {
+        order: -1;
+      }
+
+      .hero-logo-ring {
+        width: 200px;
+        height: 200px;
+      }
+
+      .hero-logo-inner {
+        width: 140px;
+        height: 140px;
+        font-size: 48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Animated Background Blobs -->
+  <div class="bg-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
+  </div>
+
+  <!-- Nav -->
+  <nav>
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <div class="logo-hex">MB</div>
+        <span>Mohit Bellwani</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-socials">
+        <a href="https://github.com/mohitbellwani" target="_blank" title="GitHub">⟨/⟩</a>
+        <a href="https://www.linkedin.com/in/mohit-bellwani/" target="_blank" title="LinkedIn">in</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-text">
+        <h1>Hi, I'm<br><span class="accent">Mohit Bellwani</span></h1>
+        <p class="hero-subtitle"><span class="typewriter" id="typewriter"></span><span
+            class="typewriter-cursor">|</span></p>
+        <p class="hero-tagline">Automating workflows with Python, MongoDB, and Modern Web Tech. I build exceptional
+          digital experiences focused on efficiency and scalability.</p>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn btn-primary">View My Work</a>
+          <a href="https://github.com/mohitbellwani" class="btn btn-glass" target="_blank">⟨/⟩ GitHub</a>
+          <a href="#contact" class="btn btn-glass">Get In Touch</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-logo-ring">
+          <div class="hero-logo-inner">MB</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-card glass">
+        <p>I am an experienced engineer specializing in Application Support and Development. From automating MongoDB
+          reporting at Arkafincap to migrating legacy Silverlight apps to Blazor at QloudX, I focus on reducing manual
+          effort and improving system efficiency.</p>
+        <br>
+        <p>My expertise spans across Frontend (React, Angular, Blazor), Backend (Python, Java, C#), and Mobile
+          Development (Android, Ionic). I'm a quick learner with a strong problem-solving mindset and a passion for
+          continuous improvement.</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card glass">
+          <div class="stat-number">3+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-card glass">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Projects Completed</div>
+        </div>
+        <div class="stat-card glass">
+          <div class="stat-number">6</div>
+          <div class="stat-label">Companies Worked</div>
+        </div>
+        <div class="stat-card glass">
+          <div class="stat-number">2</div>
+          <div class="stat-label">Certifications</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience">
+    <div class="container">
+      <h2 class="section-title">Experience</h2>
+      <div class="timeline">
+
+        <div class="timeline-item glass">
+          <div class="timeline-header">
+            <span class="timeline-role">Freelance Software Developer</span>
+            <span class="timeline-period">Oct 2025 - Present</span>
+          </div>
+          <div class="timeline-company">Self-Employed</div>
+          <p class="timeline-desc">Architecting a scalable multi-vendor E-commerce platform using React, Python
+            (FastAPI), and SQL. Engineered an offline-first Inventory Management desktop app using Tauri and SQLite.</p>
+        </div>
+
+        <div class="timeline-item glass">
+          <div class="timeline-header">
+            <span class="timeline-role">Sr. Executive Application Support</span>
+            <span class="timeline-period">Sep 2024 - Oct 2025</span>
+          </div>
+          <div class="timeline-company">Arkafincap</div>
+          <p class="timeline-desc">Automated MongoDB Excel reporting via Python, improving reporting cadence by 50%.
+            Enhanced Razorpay payment flows and reduced incident resolution by 20%.</p>
+        </div>
+
+        <div class="timeline-item glass">
+          <div class="timeline-header">
+            <span class="timeline-role">Developer</span>
+            <span class="timeline-period">Aug 2023 - Apr 2024</span>
+          </div>
+          <div class="timeline-company">QloudX</div>
+          <p class="timeline-desc">Contributed to a Silverlight to Blazor .NET migration. Built reusable components that
+            reduced UI effort by 20% and improved development times by 15%.</p>
+        </div>
+
+        <div class="timeline-item glass">
+          <div class="timeline-header">
+            <span class="timeline-role">Intern Software Developer</span>
+            <span class="timeline-period">Jan 2023 - Jun 2023</span>
+          </div>
+          <div class="timeline-company">43 APP MART</div>
+          <p class="timeline-desc">Developed a campus placement management app (Angular + MySQL). Implemented CRUD
+            workflows reducing manual admin effort by 10%.</p>
+        </div>
+
+        <div class="timeline-item glass">
+          <div class="timeline-header">
+            <span class="timeline-role">Intern Consultant</span>
+            <span class="timeline-period">Jan 2022 - May 2022</span>
+          </div>
+          <div class="timeline-company">UGAM A MERKLE COMPANY</div>
+          <p class="timeline-desc">Built Android data-scraping workflows using Python+Appium. Automated data acquisition
+            reducing manual prep by 40%.</p>
+        </div>
+
+        <div class="timeline-item glass">
+          <div class="timeline-header">
+            <span class="timeline-role">Graduate Trainee</span>
+            <span class="timeline-period">Aug 2020 - Jan 2021</span>
+          </div>
+          <div class="timeline-company">Tata Consultancy Services</div>
+          <p class="timeline-desc">Foundation in software quality assurance: sanity testing, PHP/MySQL data corrections,
+            and TortoiseSVN version control in agile.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-title">Tech Stack</h2>
+      <div class="skills-grid">
+        <div class="skill-card glass">
+          <div class="skill-category">
+            <div class="skill-category-icon">⟩_</div> Languages & Core
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">C#</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">HTML5</span>
+            <span class="skill-tag">CSS3</span>
+            <span class="skill-tag">Java</span>
+          </div>
+        </div>
+        <div class="skill-card glass">
+          <div class="skill-category">
+            <div class="skill-category-icon">⧉</div> Web Frameworks
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Blazor</span>
+            <span class="skill-tag">Basic Angular</span>
+            <span class="skill-tag">ASP.NET Core</span>
+            <span class="skill-tag">Django REST</span>
+          </div>
+        </div>
+        <div class="skill-card glass">
+          <div class="skill-category">
+            <div class="skill-category-icon">◎</div> Databases
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">MongoDB Atlas</span>
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">SQLite</span>
+          </div>
+        </div>
+        <div class="skill-card glass">
+          <div class="skill-category">
+            <div class="skill-category-icon">⚙</div> Tools & DevOps
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Git/Bitbucket</span>
+            <span class="skill-tag">Jira</span>
+            <span class="skill-tag">AWS (Basic)</span>
+            <span class="skill-tag">Postman</span>
+            <span class="skill-tag">Linux</span>
+          </div>
+        </div>
+        <div class="skill-card glass">
+          <div class="skill-category">
+            <div class="skill-category-icon">📱</div> Mobile
+          </div>
+          <div class="skill-tags">
+            <span class="skill-tag">Ionic</span>
+            <span class="skill-tag">Android (Java/XML)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="projects-grid">
+        <div class="project-card glass">
+          <span class="project-type">Android App</span>
+          <h3 class="project-title">SMS GPS Location</h3>
+          <p class="project-desc">An Android app that sends user location on-demand when a specific keyword is received
+            via SMS from an authorized contact. Features robust permission handling and Google Maps integration.</p>
+          <div class="project-tags">
+            <span>Android Studio</span>
+            <span>Java</span>
+            <span>XML</span>
+            <span>Google Maps API</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/mohitbellwani/SMS-GPS-location" class="gh-link" target="_blank">⟨/⟩ GitHub</a>
+          </div>
+        </div>
+        <div class="project-card glass">
+          <span class="project-type">Educational Game</span>
+          <h3 class="project-title">Adventures Of The Lost World</h3>
+          <p class="project-desc">A 2D/3D hybrid educational game designed to teach basic history and science concepts.
+            Uses Ren'Py for dialogue systems and Unity for platforming, with Mixamo-rigged characters.</p>
+          <div class="project-tags">
+            <span>Python</span>
+            <span>Ren'Py</span>
+            <span>Unity Engine</span>
+            <span>Mixamo</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/mohitbellwani/Adventures-of-the-lost-world" class="gh-link" target="_blank">⟨/⟩
+              GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="contact-grid">
+        <div class="contact-card glass">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value"><a href="mailto:bellwanimohit@gmail.com">bellwanimohit@gmail.com</a></div>
+        </div>
+        <div class="contact-card glass">
+          <div class="contact-icon">📱</div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-value">+91 9552201705</div>
+        </div>
+        <div class="contact-card glass">
+          <div class="contact-icon">🔗</div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value"><a href="https://www.linkedin.com/in/mohit-bellwani/"
+              target="_blank">mohit-bellwani</a></div>
+        </div>
+        <div class="contact-card glass">
+          <div class="contact-icon">⟨/⟩</div>
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value"><a href="https://github.com/mohitbellwani" target="_blank">mohitbellwani</a></div>
+        </div>
+      </div>
+      <div style="text-align: center;">
+        <div class="open-badge">
+          <span class="dot"></span>
+          Open to Work — Full-time / Freelance
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Designed & built by <span>Mohit Bellwani</span></p>
+  </footer>
+
+  <!-- Preview Banner -->
+  <div class="preview-banner">
+    <strong>🎨 Branding Preview</strong>
+    This is a standalone preview. Your current portfolio is untouched. Delete this file anytime.
+  </div>
+
+  <!-- Typewriter JS -->
+  <script>
+    const titles = [
+      "Software Engineer",
+      "Application Support Specialist",
+      "Full Stack Developer",
+      "Python Automation Expert"
+    ];
+    let titleIdx = 0, charIdx = 0, deleting = false;
+    const el = document.getElementById('typewriter');
+
+    function type() {
+      const current = titles[titleIdx];
+      if (!deleting) {
+        el.textContent = current.substring(0, charIdx + 1);
+        charIdx++;
+        if (charIdx === current.length) {
+          deleting = true;
+          setTimeout(type, 2000);
+          return;
+        }
+        setTimeout(type, 80);
+      } else {
+        el.textContent = current.substring(0, charIdx - 1);
+        charIdx--;
+        if (charIdx === 0) {
+          deleting = false;
+          titleIdx = (titleIdx + 1) % titles.length;
+          setTimeout(type, 500);
+          return;
+        }
+        setTimeout(type, 40);
+      }
+    }
+    type();
+  </script>
+</body>
+
+</html>
