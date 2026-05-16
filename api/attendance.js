@@ -183,6 +183,12 @@ export default async function handler(req, res) {
     if (action === 'reschedule_out') {
       const [outH, outM] = (settings.base_checkout_time || "19:10").split(':').map(Number);
       let checkoutMs = toISTTimestamp(now, outH, outM) + getRandomOffset() * 60 * 1000;
+      
+      if (checkoutMs <= now.getTime()) {
+        await addLog('error', `Check-Out time ${outH}:${String(outM).padStart(2,'0')} IST has already passed for today.`);
+        return res.status(400).json({ error: 'This check-out time has already passed for today. Update the time and try again.' });
+      }
+      
       await scheduleNextEvent('out', checkoutMs);
       return res.status(200).json({ message: 'Successfully rescheduled today\'s check-out!' });
     }
