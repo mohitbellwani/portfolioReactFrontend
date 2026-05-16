@@ -90,6 +90,19 @@ export default async function handler(req, res) {
       await addLog('info', `Scheduled next ${nextAction} at ${new Date(targetTimestampMs).toLocaleString()}`);
     };
 
+    // Format current date in IST
+    const now = new Date();
+    const formatterIST = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Kolkata',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+
     const getRandomOffset = () => Math.floor(Math.random() * 11) - 5; // -5 to +5 minutes
 
     const calculateNextCheckinMs = (baseDate) => {
@@ -125,19 +138,6 @@ export default async function handler(req, res) {
       await scheduleNextEvent('in', nextMs);
       return res.status(200).json({ message: 'QStash loop successfully kickstarted!' });
     }
-
-    // Format current date in IST
-    const now = new Date();
-    const formatterIST = new Intl.DateTimeFormat('en-US', {
-      timeZone: 'Asia/Kolkata',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    });
     
     // en-US formats as MM/DD/YYYY, let's extract parts to be safe
     const parts = formatterIST.formatToParts(now);
