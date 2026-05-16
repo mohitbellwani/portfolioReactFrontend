@@ -25,15 +25,35 @@ export default async function handler(req, res) {
     });
 
     const kvData = await kvGetResponse.json();
-    // Vercel KV returns { "result": "..." } where result is the stored string
-    let settings = { skip_today: false, holidays: [] };
+    let settings = { skip_today: false, holidays: [], skip_weekdays: [], logs: [] };
     if (kvData && kvData.result) {
       try {
-        settings = typeof kvData.result === 'string' ? JSON.parse(kvData.result) : kvData.result;
+        settings = { ...settings, ...(typeof kvData.result === 'string' ? JSON.parse(kvData.result) : kvData.result) };
       } catch (e) {
         console.error("Error parsing KV settings", e);
       }
     }
+
+    const addLog = async (status, message) => {
+      const logEntry = {
+        timestamp: new Date().toISOString(),
+        action: logType,
+        status,
+        message
+      };
+      
+      const updatedLogs = [logEntry, ...(settings.logs || [])].slice(0, 20); // Keep last 20
+      settings.logs = updatedLogs;
+      
+      await fetch(`${kvUrl}/set/attendance_settings`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${kvToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings),
+      });
+    };
 
     // Format current date in IST
     const now = new Date();
@@ -63,21 +83,18 @@ export default async function handler(req, res) {
     const currentTimeIST = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 
     const isHoliday = Array.isArray(settings.holidays) && settings.holidays.includes(currentDateIST);
+    const dayOfWeek = now.getDay(); // 0 is Sunday, 6 is Saturday
+    const isSkipWeekday = Array.isArray(settings.skip_weekdays) && settings.skip_weekdays.includes(dayOfWeek);
 
-    if (settings.skip_today || isHoliday) {
+    if (settings.skip_today || isHoliday || isSkipWeekday) {
+      const reason = settings.skip_today ? "Skip Today is active" : (isHoliday ? "Holiday" : "Skipped Weekday");
       // (Self-cleanup rule)
       if (settings.skip_today) {
         settings.skip_today = false;
-        await fetch(`${kvUrl}/set/attendance_settings`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${kvToken}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(settings),
-        });
       }
-      return res.status(200).json({ message: "Holiday/Skip active. No action taken" });
+      
+      await addLog('skipped', reason);
+      return res.status(200).json({ message: `Skipped. Reason: ${reason}` });
     }
 
     // 4. Frappe Login
@@ -93,7 +110,9 @@ export default async function handler(req, res) {
     });
 
     if (!loginResponse.ok) {
-      return res.status(loginResponse.status).json({ error: 'Failed to authenticate with Frappe backend' });
+      const msg = 'Failed to authenticate with Frappe backend';
+      await addLog('error', msg);
+      return res.status(loginResponse.status).json({ error: msg });
     }
 
     const setCookieHeader = loginResponse.headers.get('set-cookie');
@@ -106,7 +125,9 @@ export default async function handler(req, res) {
     }
 
     if (!sidCookie) {
-      return res.status(500).json({ error: 'Could not extract sid cookie from Frappe login' });
+      const msg = 'Could not extract sid cookie from Frappe login';
+      await addLog('error', msg);
+      return res.status(500).json({ error: msg });
     }
 
     // 5. Frappe Check-In (Insert)
@@ -129,9 +150,12 @@ export default async function handler(req, res) {
     const insertData = await insertResponse.json();
 
     if (!insertResponse.ok) {
+      const msg = `Failed to insert check-in log: ${JSON.stringify(insertData)}`;
+      await addLog('error', 'API Error: Insert Failed');
       return res.status(insertResponse.status).json({ error: 'Failed to insert check-in log', details: insertData });
     }
 
+    await addLog('success', 'Logged successfully');
     return res.status(200).json({ message: 'Success', log_type: logType, time: currentTimeIST, data: insertData });
     
   } catch (error) {

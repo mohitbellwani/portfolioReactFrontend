@@ -6,6 +6,8 @@ export default function GhostProtocol() {
   
   const [skipToday, setSkipToday] = useState(false);
   const [holidays, setHolidays] = useState([]);
+  const [skipWeekdays, setSkipWeekdays] = useState([]);
+  const [logs, setLogs] = useState([]);
   const [newHoliday, setNewHoliday] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
@@ -32,6 +34,8 @@ export default function GhostProtocol() {
         const data = await response.json();
         setSkipToday(data.skip_today || false);
         setHolidays(data.holidays || []);
+        setSkipWeekdays(data.skip_weekdays || []);
+        setLogs(data.logs || []);
       } else {
         setMessage({ text: 'Failed to fetch settings', type: 'error' });
       }
@@ -55,7 +59,8 @@ export default function GhostProtocol() {
         },
         body: JSON.stringify({
           skip_today: skipToday,
-          holidays: holidays
+          holidays: holidays,
+          skip_weekdays: skipWeekdays
         })
       });
 
@@ -82,6 +87,16 @@ export default function GhostProtocol() {
   const removeHoliday = (dateToRemove) => {
     setHolidays(holidays.filter(date => date !== dateToRemove));
   };
+
+  const toggleWeekday = (dayIndex) => {
+    if (skipWeekdays.includes(dayIndex)) {
+      setSkipWeekdays(skipWeekdays.filter(d => d !== dayIndex));
+    } else {
+      setSkipWeekdays([...skipWeekdays, dayIndex]);
+    }
+  };
+
+  const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   if (!isAuthenticated) {
     return (
@@ -170,6 +185,57 @@ export default function GhostProtocol() {
                     >
                       Remove
                     </button>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+          
+          {/* Weekly Schedule Section */}
+          <div className="bg-gray-700/30 p-5 rounded-xl border border-gray-700">
+            <h3 className="text-lg font-semibold text-white mb-2">Weekly Schedule Skips</h3>
+            <p className="text-sm text-gray-400 mb-4">Select days of the week to always skip attendance (e.g., weekends).</p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {DAYS_OF_WEEK.map((day, index) => (
+                <label key={day} className="flex items-center space-x-3 bg-gray-900/50 p-3 rounded-lg border border-gray-600/50 cursor-pointer hover:bg-gray-800 transition-colors">
+                  <input 
+                    type="checkbox"
+                    checked={skipWeekdays.includes(index)}
+                    onChange={() => toggleWeekday(index)}
+                    className="w-5 h-5 rounded border-gray-500 text-blue-500 focus:ring-blue-500 bg-gray-800"
+                  />
+                  <span className="text-gray-300 font-medium">{day}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Logs Section */}
+          <div className="bg-gray-700/30 p-5 rounded-xl border border-gray-700">
+            <h3 className="text-lg font-semibold text-white mb-2">Recent Execution Logs</h3>
+            <p className="text-sm text-gray-400 mb-4">Last 20 automated cron executions.</p>
+            <div className="space-y-2 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+              {logs.length === 0 ? (
+                <p className="text-gray-500 italic text-sm">No logs available yet.</p>
+              ) : (
+                logs.map((log, index) => (
+                  <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between bg-gray-900/80 p-3 rounded-lg border border-gray-700/50 text-sm">
+                    <div className="flex flex-col">
+                      <span className="text-gray-400 font-mono text-xs">{new Date(log.timestamp).toLocaleString()}</span>
+                      <span className="text-gray-200 mt-1">{log.message}</span>
+                    </div>
+                    <div className="flex items-center mt-2 sm:mt-0 space-x-3">
+                      <span className="bg-gray-800 px-2 py-1 rounded text-xs font-bold text-gray-300 border border-gray-600 uppercase">
+                        {log.action}
+                      </span>
+                      <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${
+                        log.status === 'success' ? 'bg-green-900/40 text-green-400 border border-green-800' :
+                        log.status === 'error' ? 'bg-red-900/40 text-red-400 border border-red-800' :
+                        'bg-yellow-900/40 text-yellow-400 border border-yellow-800'
+                      }`}>
+                        {log.status}
+                      </span>
+                    </div>
                   </div>
                 ))
               )}

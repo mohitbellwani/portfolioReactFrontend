@@ -21,9 +21,9 @@ export default async function handler(req, res) {
       });
 
       const kvData = await kvGetResponse.json();
-      let settings = { skip_today: false, holidays: [] };
+      let settings = { skip_today: false, holidays: [], skip_weekdays: [], logs: [] };
       if (kvData && kvData.result) {
-        settings = typeof kvData.result === 'string' ? JSON.parse(kvData.result) : kvData.result;
+        settings = { ...settings, ...(typeof kvData.result === 'string' ? JSON.parse(kvData.result) : kvData.result) };
       }
 
       return res.status(200).json(settings);
@@ -35,11 +35,23 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const { skip_today, holidays } = req.body;
+      const { skip_today, holidays, skip_weekdays } = req.body;
       
+      // Fetch existing to preserve logs
+      const kvGetResponse = await fetch(`${kvUrl}/get/attendance_settings`, {
+        headers: { Authorization: `Bearer ${kvToken}` },
+      });
+      const kvData = await kvGetResponse.json();
+      let existingSettings = { logs: [] };
+      if (kvData && kvData.result) {
+        existingSettings = typeof kvData.result === 'string' ? JSON.parse(kvData.result) : kvData.result;
+      }
+
       const payload = {
         skip_today: !!skip_today,
         holidays: Array.isArray(holidays) ? holidays : [],
+        skip_weekdays: Array.isArray(skip_weekdays) ? skip_weekdays : [],
+        logs: existingSettings.logs || []
       };
 
       const setResponse = await fetch(`${kvUrl}/set/attendance_settings`, {
