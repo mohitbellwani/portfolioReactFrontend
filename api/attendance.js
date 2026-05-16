@@ -76,10 +76,18 @@ export default async function handler(req, res) {
         return;
       }
       
+      if (settings.last_msg_id) {
+        // Cancel the previous scheduled message to prevent duplicates
+        await fetch(`https://qstash.upstash.io/v2/messages/${settings.last_msg_id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${qstashToken}` }
+        }).catch(e => console.error("Failed to cancel previous QStash message", e));
+      }
+
       const targetUnix = Math.floor(targetTimestampMs / 1000);
       const url = `${baseUrl}/api/attendance?action=${nextAction}`;
 
-      await fetch(`https://qstash.upstash.io/v2/publish/${url}`, {
+      const pubRes = await fetch(`https://qstash.upstash.io/v2/publish/${url}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${qstashToken}`,
@@ -87,6 +95,16 @@ export default async function handler(req, res) {
           'Upstash-Not-Before': targetUnix.toString()
         }
       });
+      
+      try {
+        const pubData = await pubRes.json();
+        if (pubData && pubData.messageId) {
+          settings.last_msg_id = pubData.messageId;
+        }
+      } catch (e) {
+        console.error("Failed to parse QStash publish response", e);
+      }
+
       await addLog('info', `Scheduled next ${nextAction} at ${new Date(targetTimestampMs).toLocaleString()}`);
     };
 
