@@ -109,6 +109,38 @@ export default function GhostProtocol() {
     }
   };
 
+  const clearLogs = async () => {
+    if (!window.confirm("Are you sure you want to clear all logs?")) return;
+    
+    setLoading(true);
+    try {
+      const response = await fetch('/api/settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer 1234'
+        },
+        body: JSON.stringify({
+          skip_today: skipToday,
+          holidays: holidays,
+          skip_weekdays: skipWeekdays,
+          base_checkin_time: baseCheckinTime,
+          clear_logs: true
+        })
+      });
+
+      if (response.ok) {
+        setLogs([]);
+        setMessage({ text: 'Logs cleared successfully', type: 'success' });
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage({ text: 'Failed to clear logs', type: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const removeHoliday = (dateToRemove) => {
     setHolidays(holidays.filter(date => date !== dateToRemove));
   };
@@ -263,8 +295,19 @@ export default function GhostProtocol() {
 
           {/* Logs Section */}
           <div className="bg-gray-700/30 p-5 rounded-xl border border-gray-700">
-            <h3 className="text-lg font-semibold text-white mb-2">Recent Execution Logs</h3>
-            <p className="text-sm text-gray-400 mb-4">Last 20 automated cron executions.</p>
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-2">Recent Execution Logs</h3>
+                <p className="text-sm text-gray-400">Last 20 automated cron executions.</p>
+              </div>
+              <button 
+                onClick={clearLogs}
+                disabled={loading || logs.length === 0}
+                className="text-sm bg-red-900/50 hover:bg-red-800 text-red-200 py-1 px-3 rounded border border-red-800 transition-colors disabled:opacity-50"
+              >
+                Clear Logs
+              </button>
+            </div>
             <div className="space-y-2 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
               {logs.length === 0 ? (
                 <p className="text-gray-500 italic text-sm">No logs available yet.</p>

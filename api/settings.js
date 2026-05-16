@@ -51,7 +51,7 @@ export default async function handler(req, res) {
         skip_today: !!skip_today,
         holidays: Array.isArray(holidays) ? holidays : [],
         skip_weekdays: Array.isArray(skip_weekdays) ? skip_weekdays : [],
-        logs: existingSettings.logs || [],
+        logs: req.body.clear_logs ? [] : (existingSettings.logs || []),
         base_checkin_time: base_checkin_time || "10:00"
       };
 
