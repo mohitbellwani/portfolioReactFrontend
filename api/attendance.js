@@ -134,7 +134,7 @@ export default async function handler(req, res) {
     };
 
     if (action === 'kickstart') {
-      const nextMs = calculateNextCheckinMs(new Date(now.getTime() - 24*60*60*1000)); // Treat today as base so it schedules for today or tomorrow
+      const nextMs = calculateNextCheckinMs(now); // Starts checking from tomorrow onwards
       await scheduleNextEvent('in', nextMs);
       return res.status(200).json({ message: 'QStash loop successfully kickstarted!' });
     }
@@ -165,6 +165,13 @@ export default async function handler(req, res) {
       }
       
       await addLog('skipped', reason);
+      
+      // CRITICAL FIX: Keep the QStash loop alive even if we skip!
+      if (action === 'in' || action === 'out') {
+        const nextCheckinMs = calculateNextCheckinMs(now);
+        await scheduleNextEvent('in', nextCheckinMs);
+      }
+      
       return res.status(200).json({ message: `Skipped. Reason: ${reason}` });
     }
 
