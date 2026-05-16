@@ -10,6 +10,7 @@ export default function GhostProtocol() {
   const [baseCheckinTime, setBaseCheckinTime] = useState("10:00");
   const [baseCheckoutTime, setBaseCheckoutTime] = useState("19:10");
   const [logs, setLogs] = useState([]);
+  const [pendingStatus, setPendingStatus] = useState({ action: null, time: null });
   const [newHoliday, setNewHoliday] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
@@ -40,6 +41,7 @@ export default function GhostProtocol() {
         setBaseCheckinTime(data.base_checkin_time || "10:00");
         setBaseCheckoutTime(data.base_checkout_time || "19:10");
         setLogs(data.logs || []);
+        setPendingStatus({ action: data.pending_action, time: data.pending_time });
       } else {
         setMessage({ text: 'Failed to fetch settings', type: 'error' });
       }
@@ -93,9 +95,10 @@ export default function GhostProtocol() {
         }
       });
       if (response.ok) {
-        setMessage({ text: 'QStash Loop successfully kickstarted!', type: 'success' });
+        setMessage({ text: 'Check-In scheduled successfully! Pending status updated.', type: 'success' });
+        fetchSettings(); // Refresh pending status
       } else {
-        setMessage({ text: 'Failed to kickstart schedule. Is QSTASH_TOKEN set?', type: 'error' });
+        setMessage({ text: 'Failed to schedule Check-In.', type: 'error' });
       }
     } catch (error) {
       console.error(error);
@@ -115,7 +118,8 @@ export default function GhostProtocol() {
         }
       });
       if (response.ok) {
-        setMessage({ text: 'Today\'s Checkout successfully rescheduled!', type: 'success' });
+        setMessage({ text: 'Today\'s Checkout scheduled successfully! Pending status updated.', type: 'success' });
+        fetchSettings(); // Refresh pending status
       } else {
         setMessage({ text: 'Failed to reschedule checkout.', type: 'error' });
       }
@@ -229,6 +233,30 @@ export default function GhostProtocol() {
         </div>
         
         <div className="p-6 space-y-8">
+          {/* Status Box */}
+          <div className={`p-5 rounded-xl border flex items-center justify-between ${pendingStatus.action ? 'bg-green-900/20 border-green-800' : 'bg-gray-800 border-gray-700'}`}>
+            <div>
+              <h2 className={`font-bold mb-1 tracking-wide ${pendingStatus.action ? 'text-green-400' : 'text-gray-400'}`}>
+                {pendingStatus.action ? 'SYSTEM STATUS: ACTIVE' : 'SYSTEM STATUS: NO EVENTS SCHEDULED'}
+              </h2>
+              {pendingStatus.action ? (
+                <p className="text-gray-300 text-sm">
+                  The bot is currently waiting to perform a <span className="font-bold text-white bg-gray-800 px-2 py-0.5 rounded border border-gray-600">{pendingStatus.action}</span> on <span className="font-bold text-white">{pendingStatus.time}</span>.
+                </p>
+              ) : (
+                <p className="text-gray-400 text-sm">Use the buttons below to force schedule a Check-In or Check-Out.</p>
+              )}
+            </div>
+            {pendingStatus.action && (
+              <div className="flex space-x-1">
+                <span className="flex h-3 w-3 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                </span>
+              </div>
+            )}
+          </div>
+
           {message.text && (
             <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-green-900/50 text-green-400 border border-green-800' : 'bg-red-900/50 text-red-400 border border-red-800'}`}>
               {message.text}
@@ -254,9 +282,9 @@ export default function GhostProtocol() {
                 <button
                   onClick={kickstartSchedule}
                   disabled={loading}
-                  className="bg-purple-600 hover:bg-purple-500 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-lg"
+                  className="bg-purple-600 hover:bg-purple-500 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-lg whitespace-nowrap text-sm"
                 >
-                  Start/Restart QStash Loop
+                  Force Schedule Check-In
                 </button>
               </div>
             </div>
@@ -278,9 +306,9 @@ export default function GhostProtocol() {
                 <button
                   onClick={rescheduleCheckout}
                   disabled={loading}
-                  className="bg-orange-600 hover:bg-orange-500 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-lg"
+                  className="bg-orange-600 hover:bg-orange-500 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-lg whitespace-nowrap text-sm"
                 >
-                  Reschedule Today's Checkout
+                  Force Schedule Check-Out
                 </button>
               </div>
             </div>

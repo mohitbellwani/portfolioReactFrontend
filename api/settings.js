@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       });
 
       const kvData = await kvGetResponse.json();
-      let settings = { skip_today: false, holidays: [], skip_weekdays: [], logs: [], base_checkin_time: "10:00", base_checkout_time: "19:10" };
+      let settings = { skip_today: false, holidays: [], skip_weekdays: [], logs: [], base_checkin_time: "10:00", base_checkout_time: "19:10", pending_action: null, pending_time: null };
       if (kvData && kvData.result) {
         settings = { ...settings, ...(typeof kvData.result === 'string' ? JSON.parse(kvData.result) : kvData.result) };
       }
@@ -54,7 +54,9 @@ export default async function handler(req, res) {
         logs: req.body.clear_logs ? [] : (existingSettings.logs || []),
         base_checkin_time: base_checkin_time || "10:00",
         base_checkout_time: base_checkout_time || "19:10",
-        last_msg_id: existingSettings.last_msg_id || null
+        last_msg_id: existingSettings.last_msg_id || null,
+        pending_action: existingSettings.pending_action || null,
+        pending_time: existingSettings.pending_time || null
       };
 
       const setResponse = await fetch(`${kvUrl}/set/attendance_settings`, {

@@ -109,7 +109,10 @@ export default async function handler(req, res) {
         console.error("Failed to parse QStash publish response", e);
       }
 
-      await addLog('info', `Scheduled next ${nextAction} at ${new Date(targetTimestampMs).toLocaleString()}`);
+      settings.pending_action = nextAction.toUpperCase();
+      settings.pending_time = new Date(targetTimestampMs).toLocaleString();
+
+      await addLog('info', `Scheduled next ${nextAction.toUpperCase()} at ${settings.pending_time}`);
     };
 
     // Format current date in IST
