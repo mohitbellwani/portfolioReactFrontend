@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import {
   Linkedin, Mail, Github, User, Briefcase,
   Cpu, Code2, GraduationCap, Award, MapPin,
@@ -9,7 +9,7 @@ import {
 import MBLogo from '../Logo';
 import { INITIAL_RESUME_DATA } from '../data/resumeData';
 import { getThemeClasses } from '../utils/theme';
-import ProjectDetailView from '../components/ProjectDetail';
+const ProjectDetailView = lazy(() => import('../components/ProjectDetail'));
 import ConstellationCanvas from '../components/ConstellationCanvas';
 import { AnimatePresence, motion } from 'framer-motion';
 import { fadeIn, slideIn, staggerContainer, textVariant } from '../utils/motion';
@@ -193,40 +193,45 @@ export default function PortfolioPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={toggleTheme}
+              aria-label="Toggle theme"
               className={`w-11 h-11 rounded-xl border ${theme.border} ${theme.cardBg} flex items-center justify-center cursor-pointer text-lg transition-all duration-300 ${theme.accent} hover:border-current`}
               title="Toggle theme"
               style={{ boxShadow: 'none' }}
               onMouseEnter={(e) => e.currentTarget.style.boxShadow = isDark ? '0 0 16px rgba(59,130,246,0.18)' : '0 0 16px rgba(245,158,11,0.18)'}
               onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
             >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+              {isDark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
             </button>
 
             <div className="hidden lg:flex gap-3">
               <a href={data.profile.github} target="_blank" rel="noreferrer"
+                aria-label="GitHub Profile"
                 className={`w-9 h-9 flex items-center justify-center rounded-lg border ${theme.border} ${theme.textMuted} no-underline text-sm transition-all duration-300 ${theme.cardHoverBorder}`}
                 style={{ boxShadow: 'none' }}
                 onMouseEnter={(e) => { e.currentTarget.style.boxShadow = isDark ? '0 0 16px rgba(59,130,246,0.18)' : '0 0 16px rgba(245,158,11,0.18)'; }}
                 onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
               >
-                <Github size={16} />
+                <Github size={16} aria-hidden="true" />
               </a>
               <a href={data.profile.linkedin} target="_blank" rel="noreferrer"
+                aria-label="LinkedIn Profile"
                 className={`w-9 h-9 flex items-center justify-center rounded-lg border ${theme.border} ${theme.textMuted} no-underline text-sm transition-all duration-300 ${theme.cardHoverBorder}`}
                 style={{ boxShadow: 'none' }}
                 onMouseEnter={(e) => { e.currentTarget.style.boxShadow = isDark ? '0 0 16px rgba(59,130,246,0.18)' : '0 0 16px rgba(245,158,11,0.18)'; }}
                 onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
               >
-                <Linkedin size={16} />
+                <Linkedin size={16} aria-hidden="true" />
               </a>
             </div>
 
             {/* Mobile hamburger */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle mobile menu"
+              aria-expanded={isMobileMenuOpen}
               className={`lg:hidden p-2 ${theme.textMuted}`}
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
             </button>
           </div>
         </div>
@@ -269,7 +274,13 @@ export default function PortfolioPage() {
 
         {selectedProject ? (
           <div className="max-w-[1100px] mx-auto px-6 pt-24">
-            <ProjectDetailView project={selectedProject} onBack={() => setSelectedProject(null)} isDark={isDark} />
+            <Suspense fallback={
+              <div className="min-h-[50vh] flex items-center justify-center">
+                <div className={`w-8 h-8 border-4 border-t-transparent ${theme.borderAccent} rounded-full animate-spin`}></div>
+              </div>
+            }>
+              <ProjectDetailView project={selectedProject} onBack={() => setSelectedProject(null)} isDark={isDark} />
+            </Suspense>
           </div>
         ) : (
           <>

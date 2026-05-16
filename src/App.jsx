@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css' // Assuming this file has styles for .App
 import PortfolioPage from './portfoliopage/portfoliopage'; 
+import GhostProtocol from './pages/GhostProtocol';
 // Use the React entrypoint for Vercel Analytics in a Vite/CRA-style app
 import { Analytics } from '@vercel/analytics/react';
 
@@ -10,6 +11,12 @@ function App() {
   useEffect(() => {
     document.title = 'Mohit Bellwani';
   }, []);
+
+  const path = window.location.pathname;
+  if (path === '/ghost-protocol') {
+    return <GhostProtocol />;
+  }
+
   return (
     <div className="App">
       {/* Render the Portfolio Page here */}

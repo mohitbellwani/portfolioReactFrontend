@@ -104,8 +104,7 @@ const ConstellationCanvas = ({ isDark }) => {
         const handleMouseMove = (e) => {
             mouseRef.current = { x: e.clientX, y: e.clientY, active: true };
             if (glowRef.current) {
-                glowRef.current.style.left = e.clientX + 'px';
-                glowRef.current.style.top = e.clientY + 'px';
+                glowRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
                 glowRef.current.style.opacity = '1';
             }
         };
@@ -224,6 +223,8 @@ const ConstellationCanvas = ({ isDark }) => {
                     background: glowBg,
                     pointerEvents: 'none',
                     zIndex: 0,
+                    top: 0,
+                    left: 0,
                     transform: 'translate(-50%, -50%)',
                     transition: 'opacity 0.3s, background 0.5s',
                     opacity: 0,
