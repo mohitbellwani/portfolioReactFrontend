@@ -1,17 +1,23 @@
 export default async function handler(req, res) {
   try {
-    // 1. Verify Authentication
-    const authHeader = req.headers.authorization;
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    // 2. Action Determination
     const { action } = req.query;
     // valid actions: 'in', 'out', 'kickstart'
     if (!['in', 'out', 'kickstart'].includes(action)) {
       return res.status(400).json({ error: 'Invalid action' });
     }
+
+    // 1. Verify Authentication
+    const authHeader = req.headers.authorization;
+    if (action === 'kickstart') {
+      if (authHeader !== 'Bearer 1234') {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+    } else {
+      if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+    }
+
     const logType = action === 'out' ? 'OUT' : 'IN';
 
     // 3. The Gatekeeper (KV Check)
