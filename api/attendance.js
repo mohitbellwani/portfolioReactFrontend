@@ -1,14 +1,14 @@
 export default async function handler(req, res) {
   try {
     const { action } = req.query;
-    // valid actions: 'in', 'out', 'kickstart'
-    if (!['in', 'out', 'kickstart'].includes(action)) {
+    // valid actions: 'in', 'out', 'kickstart', 'reschedule_out'
+    if (!['in', 'out', 'kickstart', 'reschedule_out'].includes(action)) {
       return res.status(400).json({ error: 'Invalid action' });
     }
 
     // 1. Verify Authentication
     const authHeader = req.headers.authorization;
-    if (action === 'kickstart') {
+    if (action === 'kickstart' || action === 'reschedule_out') {
       if (authHeader !== 'Bearer 1234') {
         return res.status(401).json({ error: 'Unauthorized' });
       }
@@ -156,6 +156,17 @@ export default async function handler(req, res) {
       await scheduleNextEvent('in', nextMs);
       return res.status(200).json({ message: 'QStash loop successfully kickstarted!' });
     }
+
+    if (action === 'reschedule_out') {
+      const [outH, outM] = (settings.base_checkout_time || "19:10").split(':').map(Number);
+      const checkoutDate = new Date(now.getTime());
+      checkoutDate.setHours(outH, outM, 0, 0);
+      
+      // If it's already past the calculated checkout time for today, we still try to schedule it, QStash will fire immediately.
+      let checkoutMs = checkoutDate.getTime() + getRandomOffset() * 60 * 1000;
+      await scheduleNextEvent('out', checkoutMs);
+      return res.status(200).json({ message: 'Successfully rescheduled today\'s check-out!' });
+    }
     
     // en-US formats as MM/DD/YYYY, let's extract parts to be safe
     const parts = formatterIST.formatToParts(now);
@@ -255,10 +266,13 @@ export default async function handler(req, res) {
 
     // 6. Schedule Next Loop Event
     if (action === 'in') {
-      // Schedule check-out 9h10m later + random offset
-      const baseDurationMs = (9 * 60 + 10) * 60 * 1000;
+      // Schedule check-out based on base_checkout_time
+      const [outH, outM] = (settings.base_checkout_time || "19:10").split(':').map(Number);
+      const checkoutDate = new Date(now.getTime());
+      checkoutDate.setHours(outH, outM, 0, 0);
+      
       const randomOffsetMs = getRandomOffset() * 60 * 1000;
-      const checkoutMs = now.getTime() + baseDurationMs + randomOffsetMs;
+      const checkoutMs = checkoutDate.getTime() + randomOffsetMs;
       await scheduleNextEvent('out', checkoutMs);
     } else if (action === 'out') {
       // Schedule next check-in

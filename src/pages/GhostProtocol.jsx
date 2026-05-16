@@ -8,6 +8,7 @@ export default function GhostProtocol() {
   const [holidays, setHolidays] = useState([]);
   const [skipWeekdays, setSkipWeekdays] = useState([]);
   const [baseCheckinTime, setBaseCheckinTime] = useState("10:00");
+  const [baseCheckoutTime, setBaseCheckoutTime] = useState("19:10");
   const [logs, setLogs] = useState([]);
   const [newHoliday, setNewHoliday] = useState('');
   const [loading, setLoading] = useState(false);
@@ -37,6 +38,7 @@ export default function GhostProtocol() {
         setHolidays(data.holidays || []);
         setSkipWeekdays(data.skip_weekdays || []);
         setBaseCheckinTime(data.base_checkin_time || "10:00");
+        setBaseCheckoutTime(data.base_checkout_time || "19:10");
         setLogs(data.logs || []);
       } else {
         setMessage({ text: 'Failed to fetch settings', type: 'error' });
@@ -63,7 +65,8 @@ export default function GhostProtocol() {
           skip_today: skipToday,
           holidays: holidays,
           skip_weekdays: skipWeekdays,
-          base_checkin_time: baseCheckinTime
+          base_checkin_time: baseCheckinTime,
+          base_checkout_time: baseCheckoutTime
         })
       });
 
@@ -93,6 +96,28 @@ export default function GhostProtocol() {
         setMessage({ text: 'QStash Loop successfully kickstarted!', type: 'success' });
       } else {
         setMessage({ text: 'Failed to kickstart schedule. Is QSTASH_TOKEN set?', type: 'error' });
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage({ text: 'Error connecting to server', type: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const rescheduleCheckout = async () => {
+    setLoading(true);
+    setMessage({ text: '', type: '' });
+    try {
+      const response = await fetch('/api/attendance?action=reschedule_out', {
+        headers: {
+          'Authorization': 'Bearer 1234'
+        }
+      });
+      if (response.ok) {
+        setMessage({ text: 'Today\'s Checkout successfully rescheduled!', type: 'success' });
+      } else {
+        setMessage({ text: 'Failed to reschedule checkout.', type: 'error' });
       }
     } catch (error) {
       console.error(error);
@@ -155,6 +180,21 @@ export default function GhostProtocol() {
 
   const DAYS_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+  // Auto-calculate checkout time when checkin time changes, but only if user hasn't manually edited checkout yet? 
+  // For better UX, we'll just let them change it manually. If they want 9h10m, they can set it.
+  const handleCheckinChange = (val) => {
+    setBaseCheckinTime(val);
+    if (val) {
+      const [h, m] = val.split(':').map(Number);
+      let outDate = new Date();
+      outDate.setHours(h, m, 0, 0);
+      outDate.setMinutes(outDate.getMinutes() + (9 * 60 + 10)); // add 9h10m
+      const outH = String(outDate.getHours()).padStart(2, '0');
+      const outM = String(outDate.getMinutes()).padStart(2, '0');
+      setBaseCheckoutTime(`${outH}:${outM}`);
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
@@ -197,27 +237,52 @@ export default function GhostProtocol() {
 
           {/* Time Configuration Section */}
           <div className="bg-gray-700/30 p-5 rounded-xl border border-gray-700">
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <h3 className="text-lg font-semibold text-white">Target Check-In Time</h3>
-                <p className="text-sm text-gray-400">The system will check in randomly within ±5 mins of this time.</p>
-                <p className="text-xs text-blue-400 mt-1 italic">Check-out automatically occurs 9 hours and 10 minutes later (±5 mins).</p>
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Target Check-In Time</h3>
+                  <p className="text-sm text-gray-400">The system will check in randomly within ±5 mins of this time.</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <input 
+                  type="time" 
+                  value={baseCheckinTime}
+                  onChange={(e) => handleCheckinChange(e.target.value)}
+                  className="bg-gray-900 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 font-mono text-lg"
+                />
+                <button
+                  onClick={kickstartSchedule}
+                  disabled={loading}
+                  className="bg-purple-600 hover:bg-purple-500 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-lg"
+                >
+                  Start/Restart QStash Loop
+                </button>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <input 
-                type="time" 
-                value={baseCheckinTime}
-                onChange={(e) => setBaseCheckinTime(e.target.value)}
-                className="bg-gray-900 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 font-mono text-lg"
-              />
-              <button
-                onClick={kickstartSchedule}
-                disabled={loading}
-                className="bg-purple-600 hover:bg-purple-500 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-lg"
-              >
-                Start/Restart QStash Loop
-              </button>
+            
+            <div className="pt-4 border-t border-gray-600">
+              <div className="flex justify-between items-center mb-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-white">Target Check-Out Time</h3>
+                  <p className="text-sm text-gray-400">Automatically sets to 9h 10m later, but you can edit it manually.</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <input 
+                  type="time" 
+                  value={baseCheckoutTime}
+                  onChange={(e) => setBaseCheckoutTime(e.target.value)}
+                  className="bg-gray-900 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 font-mono text-lg"
+                />
+                <button
+                  onClick={rescheduleCheckout}
+                  disabled={loading}
+                  className="bg-orange-600 hover:bg-orange-500 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-lg"
+                >
+                  Reschedule Today's Checkout
+                </button>
+              </div>
             </div>
           </div>
 

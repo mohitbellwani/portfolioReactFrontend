@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       });
 
       const kvData = await kvGetResponse.json();
-      let settings = { skip_today: false, holidays: [], skip_weekdays: [], logs: [], base_checkin_time: "10:00" };
+      let settings = { skip_today: false, holidays: [], skip_weekdays: [], logs: [], base_checkin_time: "10:00", base_checkout_time: "19:10" };
       if (kvData && kvData.result) {
         settings = { ...settings, ...(typeof kvData.result === 'string' ? JSON.parse(kvData.result) : kvData.result) };
       }
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const { skip_today, holidays, skip_weekdays, base_checkin_time } = req.body;
+      const { skip_today, holidays, skip_weekdays, base_checkin_time, base_checkout_time } = req.body;
       
       // Fetch existing to preserve logs
       const kvGetResponse = await fetch(`${kvUrl}/get/attendance_settings`, {
@@ -52,7 +52,9 @@ export default async function handler(req, res) {
         holidays: Array.isArray(holidays) ? holidays : [],
         skip_weekdays: Array.isArray(skip_weekdays) ? skip_weekdays : [],
         logs: req.body.clear_logs ? [] : (existingSettings.logs || []),
-        base_checkin_time: base_checkin_time || "10:00"
+        base_checkin_time: base_checkin_time || "10:00",
+        base_checkout_time: base_checkout_time || "19:10",
+        last_msg_id: existingSettings.last_msg_id || null
       };
 
       const setResponse = await fetch(`${kvUrl}/set/attendance_settings`, {
