@@ -85,10 +85,35 @@ export default function GhostProtocol() {
     }
   };
 
+  const saveSettingsSilent = async () => {
+    try {
+      const response = await fetch('/api/settings', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer 1234',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          skip_today: skipToday,
+          holidays: holidays,
+          skip_weekdays: skipWeekdays,
+          base_checkin_time: baseCheckinTime,
+          base_checkout_time: baseCheckoutTime
+        })
+      });
+      return response.ok;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  };
+
   const kickstartSchedule = async () => {
     setLoading(true);
     setMessage({ text: '', type: '' });
     try {
+      await saveSettingsSilent(); // Auto-save the inputs so backend reads latest values
+      
       const response = await fetch('/api/attendance?action=kickstart', {
         headers: {
           'Authorization': 'Bearer 1234'
@@ -112,6 +137,8 @@ export default function GhostProtocol() {
     setLoading(true);
     setMessage({ text: '', type: '' });
     try {
+      await saveSettingsSilent(); // Auto-save the inputs so backend reads latest values
+      
       const response = await fetch('/api/attendance?action=reschedule_out', {
         headers: {
           'Authorization': 'Bearer 1234'
