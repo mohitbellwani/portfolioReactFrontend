@@ -110,7 +110,7 @@ export default async function handler(req, res) {
       }
 
       settings.pending_action = nextAction.toUpperCase();
-      settings.pending_time = new Date(targetTimestampMs).toLocaleString();
+      settings.pending_time = new Date(targetTimestampMs).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
       await addLog('info', `Scheduled next ${nextAction.toUpperCase()} at ${settings.pending_time}`);
     };
@@ -129,6 +129,22 @@ export default async function handler(req, res) {
     });
 
     const getRandomOffset = () => Math.floor(Math.random() * 11) - 5; // -5 to +5 minutes
+    const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000; // IST = UTC + 5:30
+
+    // Helper: Create a UTC timestamp for a given IST time (hours, minutes) on a given date
+    const toISTTimestamp = (date, hours, minutes) => {
+      // Get the IST date components for the given UTC date
+      const istDate = new Date(date.getTime() + IST_OFFSET_MS);
+      istDate.setUTCHours(hours, minutes, 0, 0);
+      // Convert back: subtract IST offset to get actual UTC ms
+      return istDate.getTime() - IST_OFFSET_MS;
+    };
+
+    // Helper: Get day-of-week in IST for a given UTC date
+    const getISTDayOfWeek = (date) => {
+      const istDate = new Date(date.getTime() + IST_OFFSET_MS);
+      return istDate.getUTCDay();
+    };
 
     const calculateNextCheckinMs = (baseDate) => {
       // Find the next valid day
@@ -139,7 +155,7 @@ export default async function handler(req, res) {
         const parts = formatterIST.formatToParts(nextDate);
         const getP = (t) => parts.find(p => p.type === t)?.value;
         const dStr = `${getP('year')}-${getP('month')}-${getP('day')}`;
-        const dow = nextDate.getDay();
+        const dow = getISTDayOfWeek(nextDate);
         
         const isH = Array.isArray(settings.holidays) && settings.holidays.includes(dStr);
         const isW = Array.isArray(settings.skip_weekdays) && settings.skip_weekdays.includes(dow);
@@ -151,11 +167,11 @@ export default async function handler(req, res) {
       }
 
       const [baseH, baseM] = (settings.base_checkin_time || "10:00").split(':').map(Number);
-      nextDate.setHours(baseH, baseM, 0, 0);
+      const targetMs = toISTTimestamp(nextDate, baseH, baseM);
 
       // Add random offset
       const offsetMs = getRandomOffset() * 60 * 1000;
-      return nextDate.getTime() + offsetMs;
+      return targetMs + offsetMs;
     };
 
     if (action === 'kickstart') {
@@ -166,11 +182,7 @@ export default async function handler(req, res) {
 
     if (action === 'reschedule_out') {
       const [outH, outM] = (settings.base_checkout_time || "19:10").split(':').map(Number);
-      const checkoutDate = new Date(now.getTime());
-      checkoutDate.setHours(outH, outM, 0, 0);
-      
-      // If it's already past the calculated checkout time for today, we still try to schedule it, QStash will fire immediately.
-      let checkoutMs = checkoutDate.getTime() + getRandomOffset() * 60 * 1000;
+      let checkoutMs = toISTTimestamp(now, outH, outM) + getRandomOffset() * 60 * 1000;
       await scheduleNextEvent('out', checkoutMs);
       return res.status(200).json({ message: 'Successfully rescheduled today\'s check-out!' });
     }
@@ -190,7 +202,7 @@ export default async function handler(req, res) {
     const currentTimeIST = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 
     const isHoliday = Array.isArray(settings.holidays) && settings.holidays.includes(currentDateIST);
-    const dayOfWeek = now.getDay(); // 0 is Sunday, 6 is Saturday
+    const dayOfWeek = getISTDayOfWeek(now); // 0 is Sunday, 6 is Saturday
     const isSkipWeekday = Array.isArray(settings.skip_weekdays) && settings.skip_weekdays.includes(dayOfWeek);
 
     if (settings.skip_today || isHoliday || isSkipWeekday) {
@@ -275,11 +287,8 @@ export default async function handler(req, res) {
     if (action === 'in') {
       // Schedule check-out based on base_checkout_time
       const [outH, outM] = (settings.base_checkout_time || "19:10").split(':').map(Number);
-      const checkoutDate = new Date(now.getTime());
-      checkoutDate.setHours(outH, outM, 0, 0);
-      
       const randomOffsetMs = getRandomOffset() * 60 * 1000;
-      const checkoutMs = checkoutDate.getTime() + randomOffsetMs;
+      const checkoutMs = toISTTimestamp(now, outH, outM) + randomOffsetMs;
       await scheduleNextEvent('out', checkoutMs);
     } else if (action === 'out') {
       // Schedule next check-in
