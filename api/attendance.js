@@ -18,7 +18,11 @@ export default async function handler(req, res) {
       }
     }
 
-    const logType = action === 'out' ? 'OUT' : 'IN';
+    let logType = 'SYSTEM';
+    if (action === 'in') logType = 'IN';
+    if (action === 'out') logType = 'OUT';
+    if (action === 'kickstart') logType = 'START';
+    if (action === 'reschedule_out') logType = 'RESCHEDULE';
 
     // 3. The Gatekeeper (KV Check)
     const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
