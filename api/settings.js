@@ -21,7 +21,7 @@ export default async function handler(req, res) {
       });
 
       const kvData = await kvGetResponse.json();
-      let settings = { skip_today: false, holidays: [], skip_weekdays: [], logs: [] };
+      let settings = { skip_today: false, holidays: [], skip_weekdays: [], logs: [], base_checkin_time: "10:00" };
       if (kvData && kvData.result) {
         settings = { ...settings, ...(typeof kvData.result === 'string' ? JSON.parse(kvData.result) : kvData.result) };
       }
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const { skip_today, holidays, skip_weekdays } = req.body;
+      const { skip_today, holidays, skip_weekdays, base_checkin_time } = req.body;
       
       // Fetch existing to preserve logs
       const kvGetResponse = await fetch(`${kvUrl}/get/attendance_settings`, {
@@ -51,7 +51,8 @@ export default async function handler(req, res) {
         skip_today: !!skip_today,
         holidays: Array.isArray(holidays) ? holidays : [],
         skip_weekdays: Array.isArray(skip_weekdays) ? skip_weekdays : [],
-        logs: existingSettings.logs || []
+        logs: existingSettings.logs || [],
+        base_checkin_time: base_checkin_time || "10:00"
       };
 
       const setResponse = await fetch(`${kvUrl}/set/attendance_settings`, {

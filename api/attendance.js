@@ -8,11 +8,16 @@ export default async function handler(req, res) {
 
     // 2. Action Determination
     const { action } = req.query;
+    // valid actions: 'in', 'out', 'kickstart'
+    if (!['in', 'out', 'kickstart'].includes(action)) {
+      return res.status(400).json({ error: 'Invalid action' });
+    }
     const logType = action === 'out' ? 'OUT' : 'IN';
 
     // 3. The Gatekeeper (KV Check)
     const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
     const kvToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+    const qstashToken = process.env.QSTASH_TOKEN;
 
     if (!kvUrl || !kvToken) {
       return res.status(500).json({ error: 'KV variables are not configured' });
@@ -25,7 +30,7 @@ export default async function handler(req, res) {
     });
 
     const kvData = await kvGetResponse.json();
-    let settings = { skip_today: false, holidays: [], skip_weekdays: [], logs: [] };
+    let settings = { skip_today: false, holidays: [], skip_weekdays: [], logs: [], base_checkin_time: "10:00" };
     if (kvData && kvData.result) {
       try {
         settings = { ...settings, ...(typeof kvData.result === 'string' ? JSON.parse(kvData.result) : kvData.result) };
@@ -54,6 +59,66 @@ export default async function handler(req, res) {
         body: JSON.stringify(settings),
       });
     };
+
+    const protocol = req.headers['x-forwarded-proto'] || 'https';
+    const host = req.headers.host;
+    const baseUrl = `${protocol}://${host}`;
+
+    const scheduleNextEvent = async (nextAction, targetTimestampMs) => {
+      if (!qstashToken) {
+        console.error('QSTASH_TOKEN not found, skipping scheduling');
+        return;
+      }
+      
+      const targetUnix = Math.floor(targetTimestampMs / 1000);
+      const url = `${baseUrl}/api/attendance?action=${nextAction}`;
+
+      await fetch(`https://qstash.upstash.io/v2/publish/${url}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${qstashToken}`,
+          'Upstash-Forward-Authorization': `Bearer ${process.env.CRON_SECRET}`,
+          'Upstash-Not-Before': targetUnix.toString()
+        }
+      });
+      await addLog('info', `Scheduled next ${nextAction} at ${new Date(targetTimestampMs).toLocaleString()}`);
+    };
+
+    const getRandomOffset = () => Math.floor(Math.random() * 11) - 5; // -5 to +5 minutes
+
+    const calculateNextCheckinMs = (baseDate) => {
+      // Find the next valid day
+      let nextDate = new Date(baseDate.getTime());
+      nextDate.setDate(nextDate.getDate() + 1); // Start checking tomorrow
+      
+      while (true) {
+        const parts = formatterIST.formatToParts(nextDate);
+        const getP = (t) => parts.find(p => p.type === t)?.value;
+        const dStr = `${getP('year')}-${getP('month')}-${getP('day')}`;
+        const dow = nextDate.getDay();
+        
+        const isH = Array.isArray(settings.holidays) && settings.holidays.includes(dStr);
+        const isW = Array.isArray(settings.skip_weekdays) && settings.skip_weekdays.includes(dow);
+        
+        if (!isH && !isW) {
+          break; // Found a valid day
+        }
+        nextDate.setDate(nextDate.getDate() + 1);
+      }
+
+      const [baseH, baseM] = (settings.base_checkin_time || "10:00").split(':').map(Number);
+      nextDate.setHours(baseH, baseM, 0, 0);
+
+      // Add random offset
+      const offsetMs = getRandomOffset() * 60 * 1000;
+      return nextDate.getTime() + offsetMs;
+    };
+
+    if (action === 'kickstart') {
+      const nextMs = calculateNextCheckinMs(new Date(now.getTime() - 24*60*60*1000)); // Treat today as base so it schedules for today or tomorrow
+      await scheduleNextEvent('in', nextMs);
+      return res.status(200).json({ message: 'QStash loop successfully kickstarted!' });
+    }
 
     // Format current date in IST
     const now = new Date();
@@ -156,6 +221,20 @@ export default async function handler(req, res) {
     }
 
     await addLog('success', 'Logged successfully');
+
+    // 6. Schedule Next Loop Event
+    if (action === 'in') {
+      // Schedule check-out 9h10m later + random offset
+      const baseDurationMs = (9 * 60 + 10) * 60 * 1000;
+      const randomOffsetMs = getRandomOffset() * 60 * 1000;
+      const checkoutMs = now.getTime() + baseDurationMs + randomOffsetMs;
+      await scheduleNextEvent('out', checkoutMs);
+    } else if (action === 'out') {
+      // Schedule next check-in
+      const nextCheckinMs = calculateNextCheckinMs(now);
+      await scheduleNextEvent('in', nextCheckinMs);
+    }
+
     return res.status(200).json({ message: 'Success', log_type: logType, time: currentTimeIST, data: insertData });
     
   } catch (error) {
