@@ -29,6 +29,7 @@ export default async function handler(req, res) {
     const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
     const kvToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
     const qstashToken = process.env.QSTASH_TOKEN;
+    const qstashUrl = process.env.QSTASH_URL || 'https://qstash.upstash.io';
 
     if (!kvUrl || !kvToken) {
       return res.status(500).json({ error: 'KV variables are not configured' });
@@ -83,7 +84,7 @@ export default async function handler(req, res) {
       
       if (settings.last_msg_id) {
         // Cancel the previous scheduled message to prevent duplicates
-        await fetch(`https://qstash.upstash.io/v2/messages/${settings.last_msg_id}`, {
+        await fetch(`${qstashUrl}/v2/messages/${settings.last_msg_id}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${qstashToken}` }
         }).catch(e => console.error("Failed to cancel previous QStash message", e));
@@ -92,7 +93,7 @@ export default async function handler(req, res) {
       const targetUnix = Math.floor(targetTimestampMs / 1000);
       const url = `${baseUrl}/api/attendance?action=${nextAction}`;
 
-      const pubRes = await fetch(`https://qstash.upstash.io/v2/publish/${url}`, {
+      const pubRes = await fetch(`${qstashUrl}/v2/publish/${url}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${qstashToken}`,
