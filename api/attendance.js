@@ -1,14 +1,14 @@
 export default async function handler(req, res) {
   try {
     const { action } = req.query;
-    // valid actions: 'in', 'out', 'kickstart', 'reschedule_out'
-    if (!['in', 'out', 'kickstart', 'reschedule_out'].includes(action)) {
+    // valid actions: 'in', 'out', 'kickstart', 'reschedule_out', 'diagnose'
+    if (!['in', 'out', 'kickstart', 'reschedule_out', 'diagnose'].includes(action)) {
       return res.status(400).json({ error: 'Invalid action' });
     }
 
     // 1. Verify Authentication
     const authHeader = req.headers.authorization;
-    if (action === 'kickstart' || action === 'reschedule_out') {
+    if (action === 'kickstart' || action === 'reschedule_out' || action === 'diagnose') {
       if (authHeader !== 'Bearer 1234') {
         return res.status(401).json({ error: 'Unauthorized' });
       }
@@ -23,6 +23,7 @@ export default async function handler(req, res) {
     if (action === 'out') logType = 'OUT';
     if (action === 'kickstart') logType = 'START';
     if (action === 'reschedule_out') logType = 'RESCHEDULE';
+    if (action === 'diagnose') logType = 'DIAG';
 
     // 3. The Gatekeeper (KV Check)
     const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
@@ -100,19 +101,23 @@ export default async function handler(req, res) {
         }
       });
       
-      try {
-        const pubData = await pubRes.json();
-        if (pubData && pubData.messageId) {
-          settings.last_msg_id = pubData.messageId;
-        }
-      } catch (e) {
-        console.error("Failed to parse QStash publish response", e);
+      const pubData = await pubRes.json().catch(() => ({}));
+      
+      if (!pubRes.ok) {
+        const errMsg = `QStash publish FAILED (${pubRes.status}): ${JSON.stringify(pubData)}`;
+        console.error(errMsg);
+        await addLog('error', errMsg);
+        return; // Don't update pending status on failure
+      }
+      
+      if (pubData && pubData.messageId) {
+        settings.last_msg_id = pubData.messageId;
       }
 
       settings.pending_action = nextAction.toUpperCase();
       settings.pending_time = new Date(targetTimestampMs).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
-      await addLog('info', `Scheduled next ${nextAction.toUpperCase()} at ${settings.pending_time}`);
+      await addLog('info', `Scheduled next ${nextAction.toUpperCase()} at ${settings.pending_time} (msgId: ${pubData.messageId || 'unknown'})`);
     };
 
     // Format current date in IST
@@ -173,6 +178,26 @@ export default async function handler(req, res) {
       const offsetMs = getRandomOffset() * 60 * 1000;
       return targetMs + offsetMs;
     };
+
+    if (action === 'diagnose') {
+      // Safe diagnostic: tests QStash connectivity without touching Frappe
+      const diagnostics = {
+        qstash_token_present: !!qstashToken,
+        qstash_token_length: qstashToken ? qstashToken.length : 0,
+        cron_secret_present: !!process.env.CRON_SECRET,
+        kv_connected: !!(kvUrl && kvToken),
+        base_url: baseUrl,
+        settings_base_checkin: settings.base_checkin_time,
+        settings_base_checkout: settings.base_checkout_time,
+        settings_last_msg_id: settings.last_msg_id,
+        settings_pending_action: settings.pending_action,
+        settings_pending_time: settings.pending_time,
+        server_time_utc: now.toISOString(),
+        server_time_ist: now.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+      };
+      await addLog('info', `Diagnostics run: QSTASH=${diagnostics.qstash_token_present}, CRON=${diagnostics.cron_secret_present}, URL=${baseUrl}`);
+      return res.status(200).json({ diagnostics });
+    }
 
     if (action === 'kickstart') {
       const nextMs = calculateNextCheckinMs(now); // Starts checking from tomorrow onwards
