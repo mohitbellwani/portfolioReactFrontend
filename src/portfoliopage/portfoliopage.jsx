@@ -422,7 +422,7 @@ export default function PortfolioPage() {
                   <motion.div variants={fadeIn("up", "tween", 0.4, 1)} className="grid grid-cols-2 gap-4">
                     {[
                       { num: '3+', label: 'Years Experience' },
-                      { num: '5+', label: 'Projects' },
+                      { num: '10+', label: 'Projects' },
                       { num: '5', label: 'Companies' },
                       { num: '2', label: 'Certifications' },
                     ].map((stat, i) => (
