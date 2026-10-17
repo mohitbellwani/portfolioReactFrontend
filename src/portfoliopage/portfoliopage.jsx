@@ -118,7 +118,7 @@ export default function PortfolioPage() {
   // Typewriter effect
   const [typeText, setTypeText] = useState('');
   const typeRef = useRef({ idx: 0, charIdx: 0, deleting: false });
-  const titles = ["Software Engineer", "Application Support Specialist", "Full Stack Developer", "Python Automation Expert"];
+  const titles = ["Applied AI Engineer", "Application Support Specialist", "Full Stack Developer", "Python Automation Expert"];
 
   useEffect(() => {
     const typeLoop = () => {
@@ -159,7 +159,7 @@ export default function PortfolioPage() {
   ];
 
   return (
-    <div className={`w-full ${theme.bg} ${theme.text} transition-colors duration-500`} style={{ fontFamily: "'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif" }}>
+    <div className={`w-full max-w-full overflow-x-hidden ${theme.bg} ${theme.text} transition-colors duration-500`} style={{ fontFamily: "'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif" }}>
 
       {/* Constellation Background */}
       <ConstellationCanvas isDark={isDark} />
@@ -222,6 +222,16 @@ export default function PortfolioPage() {
               >
                 <Linkedin size={16} aria-hidden="true" />
               </a>
+              <a href={data.profile.resume} download="resume.pdf" target="_blank" rel="noreferrer"
+                aria-label="Download Resume"
+                title="Download Resume"
+                className={`w-9 h-9 flex items-center justify-center rounded-lg border ${theme.border} ${theme.textMuted} no-underline text-sm transition-all duration-300 ${theme.cardHoverBorder}`}
+                style={{ boxShadow: 'none' }}
+                onMouseEnter={(e) => { e.currentTarget.style.boxShadow = isDark ? '0 0 16px rgba(59,130,246,0.18)' : '0 0 16px rgba(245,158,11,0.18)'; }}
+                onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'none'}
+              >
+                <FileDownIcon size={16} aria-hidden="true" />
+              </a>
             </div>
 
             {/* Mobile hamburger */}
@@ -259,10 +269,10 @@ export default function PortfolioPage() {
 
             <div className={`mt-auto mb-8 pt-6 border-t ${theme.border}`}>
               <div className="flex gap-6 justify-center">
-                <a href={data.profile.linkedin} target="_blank" rel="noreferrer" className={`${theme.textMuted} transition-all hover:scale-110`}><Linkedin size={24} /></a>
-                <a href={`mailto:${data.profile.email}`} className={`${theme.textMuted} transition-all hover:scale-110`}><Mail size={24} /></a>
-                <a href={data.profile.github} target="_blank" rel="noreferrer" className={`${theme.textMuted} transition-all hover:scale-110`}><Github size={24} /></a>
-                <a href={data.profile.resume} target="_blank" rel="noreferrer" className={`${theme.textMuted} transition-all hover:scale-110`}><FileDownIcon size={24} /></a>
+                <a href={data.profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className={`${theme.textMuted} transition-all hover:scale-110`}><Linkedin size={24} /></a>
+                <a href={`mailto:${data.profile.email}`} aria-label="Email" className={`${theme.textMuted} transition-all hover:scale-110`}><Mail size={24} /></a>
+                <a href={data.profile.github} target="_blank" rel="noreferrer" aria-label="GitHub" className={`${theme.textMuted} transition-all hover:scale-110`}><Github size={24} /></a>
+                <a href={data.profile.resume} download="resume.pdf" target="_blank" rel="noreferrer" aria-label="Download Resume" title="Download Resume" className={`${theme.textMuted} transition-all hover:scale-110`}><FileDownIcon size={24} /></a>
               </div>
             </div>
           </motion.div>
@@ -270,7 +280,7 @@ export default function PortfolioPage() {
       </AnimatePresence>
 
       {/* ═════ Main Content ═════ */}
-      <main className="relative z-[1]">
+      <main className="relative z-[1] w-full max-w-full overflow-x-hidden">
 
         {selectedProject ? (
           <div className="max-w-[1100px] mx-auto px-6 pt-24">
@@ -285,7 +295,7 @@ export default function PortfolioPage() {
         ) : (
           <>
             {/* ═════ Hero Section ═════ */}
-            <section className="min-h-screen flex items-center pt-20">
+            <section className="min-h-screen flex items-center pt-20 w-full max-w-full overflow-hidden">
               <div className="max-w-[1100px] mx-auto px-6 w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-16 items-center">
                   <motion.div
@@ -296,7 +306,7 @@ export default function PortfolioPage() {
                     <div className={`font-mono-brand text-xs ${theme.accentLight} tracking-[3px] uppercase mb-4 flex items-center gap-2`}>
                       <span className={theme.accent}>—</span> Hello World
                     </div>
-                    <h1 className={`text-5xl lg:text-[60px] font-bold leading-[1.05] mb-5 tracking-tight ${theme.textHeader}`}>
+                    <h1 className={`text-4xl sm:text-5xl lg:text-[60px] font-bold leading-[1.05] mb-5 tracking-tight ${theme.textHeader} break-words`}>
                       I'm<br />
                       <span className={`${theme.nameGradient} bg-clip-text text-transparent`} style={{ backgroundSize: '200% 200%', animation: 'gradientShift 4s ease-in-out infinite' }}>
                         Mohit Bellwani
@@ -317,6 +327,15 @@ export default function PortfolioPage() {
                         style={{ boxShadow: isDark ? '0 0 28px rgba(59,130,246,0.18), 0 4px 12px rgba(0,0,0,0.2)' : '0 0 28px rgba(245,158,11,0.18), 0 4px 12px rgba(0,0,0,0.1)' }}
                       >
                         View Projects →
+                      </a>
+                      <a
+                        href={data.profile.resume}
+                        download="resume.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`px-7 py-3.5 rounded-xl font-semibold text-sm no-underline inline-flex items-center gap-2 border ${theme.border} ${theme.textSecondary} transition-all duration-300 hover:-translate-y-0.5 ${theme.cardHoverBorder}`}
+                      >
+                        <FileDownIcon size={16} /> Resume
                       </a>
                       <a href={data.profile.github} target="_blank" rel="noreferrer"
                         className={`px-7 py-3.5 rounded-xl font-semibold text-sm no-underline inline-flex items-center gap-2 border ${theme.border} ${theme.textSecondary} transition-all duration-300 hover:-translate-y-0.5 ${theme.cardHoverBorder}`}
@@ -377,7 +396,7 @@ export default function PortfolioPage() {
             {/* ═════ About ═════ */}
             <motion.section
               id="about"
-              className="py-24 scroll-mt-20"
+              className="py-24 scroll-mt-20 overflow-hidden w-full max-w-full"
               variants={staggerContainer()}
               initial="hidden"
               whileInView="show"
@@ -402,9 +421,9 @@ export default function PortfolioPage() {
 
                   <motion.div variants={fadeIn("up", "tween", 0.4, 1)} className="grid grid-cols-2 gap-4">
                     {[
-                      { num: '2+', label: 'Years Experience' },
+                      { num: '3+', label: 'Years Experience' },
                       { num: '5+', label: 'Projects' },
-                      { num: '3', label: 'Companies' },
+                      { num: '5', label: 'Companies' },
                       { num: '2', label: 'Certifications' },
                     ].map((stat, i) => (
                       <div key={i}
@@ -430,7 +449,7 @@ export default function PortfolioPage() {
             {/* ═════ Experience ═════ */}
             <motion.section
               id="experience"
-              className="py-24 scroll-mt-20"
+              className="py-24 scroll-mt-20 overflow-hidden w-full max-w-full"
               variants={staggerContainer()}
               initial="hidden"
               whileInView="show"
@@ -452,10 +471,60 @@ export default function PortfolioPage() {
               </div>
             </motion.section>
 
+            {/* ═════ Freelance & Consulting ═════ */}
+            <motion.section
+              id="freelance"
+              className="py-24 scroll-mt-20 overflow-hidden w-full max-w-full"
+              variants={staggerContainer()}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.1 }}
+            >
+              <div className="max-w-[1100px] mx-auto px-6">
+                <SectionHeader title="Independent Projects & Consulting" label="// freelance" isDark={isDark} />
+                <div className="relative pl-2">
+                  {data.freelance.map((exp, index) => (
+                    <TimelineItem
+                      key={exp.id}
+                      {...exp}
+                      isLast={index === data.freelance.length - 1}
+                      isDark={isDark}
+                      index={index}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.section>
+
+            {/* ═════ Internships ═════ */}
+            <motion.section
+              id="internships"
+              className="py-24 scroll-mt-20 overflow-hidden w-full max-w-full"
+              variants={staggerContainer()}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.1 }}
+            >
+              <div className="max-w-[1100px] mx-auto px-6">
+                <SectionHeader title="Where It All Began" label="// internships" isDark={isDark} />
+                <div className="relative pl-2">
+                  {data.internships.map((exp, index) => (
+                    <TimelineItem
+                      key={exp.id}
+                      {...exp}
+                      isLast={index === data.internships.length - 1}
+                      isDark={isDark}
+                      index={index}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.section>
+
             {/* ═════ Skills ═════ */}
             <motion.section
               id="skills"
-              className="py-24 scroll-mt-20"
+              className="py-24 scroll-mt-20 overflow-hidden w-full max-w-full"
               variants={staggerContainer()}
               initial="hidden"
               whileInView="show"
@@ -474,7 +543,7 @@ export default function PortfolioPage() {
             {/* ═════ Projects ═════ */}
             <motion.section
               id="projects"
-              className="py-24 scroll-mt-20"
+              className="py-24 scroll-mt-20 overflow-hidden w-full max-w-full"
               variants={staggerContainer()}
               initial="hidden"
               whileInView="show"
@@ -493,7 +562,7 @@ export default function PortfolioPage() {
             {/* ═════ Education & Certifications ═════ */}
             <motion.section
               id="education"
-              className="py-24 scroll-mt-20"
+              className="py-24 scroll-mt-20 overflow-hidden w-full max-w-full"
               variants={staggerContainer()}
               initial="hidden"
               whileInView="show"
@@ -553,7 +622,7 @@ export default function PortfolioPage() {
             {/* ═════ Contact ═════ */}
             <motion.section
               id="contact"
-              className="py-24 scroll-mt-20"
+              className="py-24 scroll-mt-20 overflow-hidden w-full max-w-full"
               variants={staggerContainer()}
               initial="hidden"
               whileInView="show"
@@ -567,6 +636,7 @@ export default function PortfolioPage() {
                     { icon: Phone, label: 'Phone', value: data.profile.phone || '+91 9552201705', href: null },
                     { icon: Linkedin, label: 'LinkedIn', value: 'mohit-bellwani', href: data.profile.linkedin },
                     { icon: Github, label: 'GitHub', value: 'mohitbellwani', href: data.profile.github },
+                    { icon: FileDownIcon, label: 'Resume', value: 'Download PDF', href: data.profile.resume, download: 'resume.pdf' },
                   ].map((item, i) => (
                     <motion.div
                       key={i}
@@ -583,7 +653,12 @@ export default function PortfolioPage() {
                         <div className={`text-[11px] ${theme.textMuted} uppercase tracking-[1.5px] font-semibold mb-0.5`}>{item.label}</div>
                         <div className={`text-[15px] font-medium`}>
                           {item.href ? (
-                            <a href={item.href} target={item.href.startsWith('mailto') ? undefined : '_blank'} rel="noreferrer" className={`${theme.textHeader} no-underline transition-colors duration-300`}
+                            <a
+                              href={item.href}
+                              download={item.download || undefined}
+                              target={item.href.startsWith('mailto') ? undefined : '_blank'}
+                              rel="noreferrer"
+                              className={`${theme.textHeader} no-underline transition-colors duration-300`}
                               onMouseEnter={(e) => e.currentTarget.className = `${theme.accentLight} no-underline transition-colors duration-300`}
                               onMouseLeave={(e) => e.currentTarget.className = `${theme.textHeader} no-underline transition-colors duration-300`}
                             >

@@ -1,88 +1,114 @@
 import React from 'react';
-import { Terminal, Layout, Database, Server, Smartphone } from 'lucide-react';
+import { Terminal, Layout, Database, Server, Smartphone, Shield, Cpu, Bot } from 'lucide-react';
 
 export const INITIAL_RESUME_DATA = {
   profile: {
     name: "Mohit Bellwani",
-    title: "Software Engineer & Application Support",
-    tagline: "Automating workflows with Python, MongoDB, and Modern Web Tech.",
-    bio: "I am an experienced engineer specializing in Application Support and Development. From automating MongoDB reporting at Arkafincap to migrating legacy Silverlight apps to Blazor at QloudX, I focus on reducing manual effort and improving system efficiency.",
+    title: "Applied AI Engineer & Application Support",
+    tagline: "Building AI-enabled applications, automating workflows, and delivering production support across financial and business systems.",
+    bio: "Software professional with experience in AI-enabled application development, production support, and full-stack development. Skilled in Python, SQL, C#/.NET, and troubleshooting application issues across financial and business systems. Proven ability to automate workflows, improve operational efficiency, and deliver client-focused solutions, including cataloging and CRM applications.",
     email: "bellwanimohit@gmail.com",
     linkedin: "https://www.linkedin.com/in/mohit-bellwani/",
     github: "https://github.com/mohitbellwani",
-    resume: "/assets/Mohit_Bellwani_Resume_V11.pdf",
+    resume: "/assets/resume.pdf",
     phone: "+91 9552201705",
     location: "Mumbai, India"
   },
   skills: [
     {
-      category: "Languages & Core",
+      category: "Production Support",
+      icon: Shield,
+      items: ["Incident Management", "SLA", "RCA", "Log Analysis"]
+    },
+    {
+      category: "Programming Languages",
       icon: Terminal,
-      items: ["Python", "C#", "SQL", "MongoDB", "JavaScript", "HTML5", "CSS3", "Java"]
+      items: ["Python", "C#", "SQL", "JavaScript", "HTML5", "CSS3", "Java"]
     },
     {
       category: "Web Frameworks",
       icon: Layout,
-      items: ["Blazor", "Basic Angular", "ASP.NET Core", "Django REST"]
+      items: ["Blazor", "React (Basic)", "ASP.NET Core", "Django REST"]
     },
     {
       category: "Databases",
       icon: Database,
-      items: ["MongoDB Atlas", "MySQL", "SQLite"]
+      items: ["MongoDB", "MySQL", "SQLite"]
+    },
+    {
+      category: "Middleware & APIs",
+      icon: Cpu,
+      items: ["CodeIgniter 4", "Nginx", "Temporal"]
     },
     {
       category: "Tools & DevOps",
       icon: Server,
-      items: ["Git/Bitbucket", "Jira", "AWS (Basic)", "Postman", "Linux (Ubuntu)", "LOS"]
+      items: ["Git/Bitbucket", "Jira", "AWS (Basics)", "Postman", "Liferay", "Zoho Expense", "Zoho Books"]
     },
     {
       category: "Mobile",
       icon: Smartphone,
       items: ["Ionic", "Android (Java/XML)"]
+    },
+    {
+      category: "AI Tools",
+      icon: Bot,
+      items: ["Claude", "Codex", "LocalAI"]
     }
   ],
   experience: [
     {
       id: 1,
-      role: "Freelance Software Developer",
-      company: "Self-Employed",
-      period: "Oct 2025 - Present",
-      description: "Architecting a scalable multi-vendor E-commerce platform for a supermarket chain using React, Python (FastAPI), and SQL. Engineered an offline-first Inventory Management desktop app for a hardware store using Tauri and SQLite. Designed a full-stack personal portfolio with dynamic content management via MongoDB Atlas."
+      role: "Applied AI Engineer",
+      company: "SMB Catalyst",
+      period: "Mar 2026 - Present",
+      description: "Developed AI-enabled applications and solutions for client business workflows. Built a Smart Cataloging system that reduced client presentation prep time by 80% and soft quotation generation time by 90% by centralizing catalogue data. Integrated CRM functionality enabling clients to record leads and manage follow-ups more efficiently. Developed Android and iOS applications to extend catalog and CRM functionality to mobile users."
     },
     {
       id: 2,
       role: "Senior Executive Application Support",
       company: "Arkafincap",
       period: "Sep 2024 - Oct 2025",
-      description: "Automated MongoDB Excel reporting via Python & MongoDB, improving reporting cadence by 50%. Enhanced Razorpay payment flows using razorpay integration with Google's Appscript and reduced incident resolution time for LOS Support by 20% through expert log analysis."
+      description: "Provided L1 and L2 application support for the Loan Origination System (LOS), troubleshooting production issues and coordinating resolutions. Automated MongoDB to Excel reporting via Python scripts consuming the Netcore Email API, improving reporting cadence by 50%. Cut incident resolution time by 20%, lowering MTTR from 8 to 6 hours through pod-level analysis using Kubernetes (kubectl, logs) and zgrep on production servers. Developed a custom Razorpay payment link generator using Google AppScript, reducing development time by 40%."
     },
     {
       id: 3,
       role: "Developer",
       company: "QloudX",
       period: "Aug 2023 - Apr 2024",
-      description: "Contributed to a Silverlight to Blazor .NET migration. Built reusable components that reduced UI effort by 20% and improved development times by 15%."
+      description: "Contributed to Silverlight→Blazor .NET migration, delivering 15% components/pages across 25 sprints with on-time milestones. Built reusable Blazor components and integrated C#/.NET Core services, reducing duplicate UI effort by 20% and improving development times by 15%. Participated in 24 code reviews & resolved feedback within 4 hours median, lowering rework/defects by 15%."
     },
     {
       id: 4,
+      role: "Software Support Technician",
+      company: "Tata Consultancy Services",
+      period: "Aug 2020 - Jan 2021",
+      description: "Executed sanity testing of web applications and documented issues to support stable releases. Performed PHP/MySQL data corrections and coordinated with relevant teams to resolve production issues. Used TortoiseSVN for version control and participated in daily standups for task tracking."
+    }
+  ],
+  freelance: [
+    {
+      id: 1,
+      role: "Freelance Software Developer",
+      company: "Self-Employed (Remote)",
+      period: "Oct 2025 - Mar 2026",
+      description: "Engineered a robust Tauri desktop application for a hardware store with SQLite for local data persistence and seamless offline operations, deployed cloud-synced web demo on Vercel/Render. Designed a full-stack personal portfolio with MongoDB Atlas for dynamic content management. Currently architecting a scalable e-commerce solution for a grocery business with AWS S3 image storage and optimized PL/SQL queries."
+    }
+  ],
+  internships: [
+    {
+      id: 1,
       role: "Intern Software Developer",
       company: "43 APP MART",
       period: "Jan 2023 - Jun 2023",
-      description: "Developed a campus placement management app (Angular + MySQL). Implemented CRUD workflows reducing manual admin effort by 10%."
+      description: "Developed a campus placement management app (Angular + MySQL), delivering 2 core modules across 16 sprints. Implemented CRUD workflows and validations, reducing manual admin effort by 10% and lowering user-reported issues by 10%. Drove weekly demos & feedback cycles, cutting rework by 25% & hitting 60% on-time milestone delivery."
     },
     {
-      id: 5,
+      id: 2,
       role: "Intern Consultant",
       company: "UGAM A MERKLE COMPANY",
       period: "Jan 2022 - May 2022",
-      description: "Built Android data-scraping workflows using Python+Appium. Automated data acquisition with Python+SQL, reducing manual prep by 40%."
-    },
-    {
-      id: 6,
-      role: "Graduate Trainee",
-      company: "Tata Consultancy Services",
-      period: "Aug 2020 - Jan 2021",
-      description: "Foundation in software quality assurance and support: Performed sanity testing for web applications, resolved production issues with PHP/MySQL data corrections, and utilized TortoiseSVN for version control in an agile environment."
+      description: "Built Android data-scraping workflows using Python+Appium, extracting 5-7 data points/session with 80% success rate. Automated data acquisition with Python+SQL, reducing manual prep by 40% and increasing refresh frequency from daily to twice a day. Exposed Django REST APIs consumed by a React frontend. Operated in weekly sprints using Jira/Bitbucket, closing 3 story points/sprint."
     }
   ],
   projects: [
@@ -135,7 +161,7 @@ export const INITIAL_RESUME_DATA = {
       description: "A comprehensive inventory management system with real-time stock tracking, supplier management, transaction history, and audit logging. Features a responsive dashboard with analytics.",
       tags: ["React", "Vite", "Python", "FastAPI", "Supabase", "Tailwind CSS", "Tauri"],
       link: "#",
-      liveDemo: "https://inventory-pro-nu.vercel.app/",
+      liveDemo: "https://inventory-pro-eight.vercel.app/",
       github: null,
       githubLabel: "Code on Demand",
       screenshots: [],
@@ -156,14 +182,14 @@ export const INITIAL_RESUME_DATA = {
   ],
   education: [
     {
-      degree: "Masters of Computer Application",
+      degree: "Master of Computer Applications",
       school: "Bharatiya Vidya Bhavan's Sardar Patel Institute of Technology",
       year: "Dec 2022",
       detail: "Certificate of Merit Holder (3rd Rank)"
     },
     {
-      degree: "Bachelor of Science - Computer Science ",
-      school: "Vivekanand Education Society's College of Arts, Science and Commerce",
+      degree: "Bachelor of Science - Computer Science",
+      school: "Vivekanand Education Society's College of Arts, Science & Commerce",
       year: "Oct 2020",
       detail: "First Class"
     }
